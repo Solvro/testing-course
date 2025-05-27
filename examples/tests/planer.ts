@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 
-test("test", async ({ page }) => {
+test("planer", async ({ page }) => {
   await page.goto("https://planer.solvro.pl/");
   await page.getByRole("link", { name: "Kontynuuj bez logowania" }).click();
   await page.getByRole("button").filter({ hasText: /^$/ }).click();
