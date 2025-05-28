@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test --headed"
+    "test": "playwright test --headed",
+    "test:ci": "playwright test"
   },
   "keywords": [],
   "author": "",
