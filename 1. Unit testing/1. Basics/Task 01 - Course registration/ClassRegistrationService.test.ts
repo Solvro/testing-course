@@ -71,7 +71,7 @@ describe("dropCourse", () => {
     });
 
     function registerForCourse(studentId: string, courseId: string, service: CourseRegistrationService) {
-        const course = getCourseOrFail(service,courseId);
+        const course = getCourseOrFail(service, courseId);
         const student = getStudentOrFail(service, studentId);
         expect(student.currentCourses.push(courseId)).toBeDefined();
         course.availableSeats--;
@@ -86,5 +86,68 @@ describe("dropCourse", () => {
         expect(course.availableSeats).toEqual(seatsBefore + 1);
         const student = getStudentOrFail(registrationService, studentId);
         expect(student.currentCourses.includes(courseId)).toBe(false);
+    });
+});
+
+
+describe("getEligibleCourses", () => {
+    let registrationService: CourseRegistrationService;
+
+    function generateCourseWithMissingPrerequisites(id: string): Course {
+        const course = generateCourse(id);
+        course.prerequisites = ['111'];
+        return course;
+    }
+
+    function generateCourseWithCreditHoursLimit(id: string): Course {
+        const course = generateCourse(id);
+        course.creditHours = 99999999;
+        return course;
+    }
+
+    function generateCourseWithNoSeats(id: string): Course {
+        const course = generateCourse(id);
+        course.availableSeats = 0;
+        return course;
+    }
+
+    it("should return empty array if student doesn't exist", () => {
+        const studentId = '1';
+        const invalidStudentId = studentId + '1';
+        registrationService = new CourseRegistrationService([], [generateStudent(studentId)]);
+        expect(registrationService.getEligibleCourses(invalidStudentId).length).toEqual(0);
+    });
+
+    it("should return empty array if no courses match - missing prerequisites", () => {
+        const studentId = '1';
+        registrationService = new CourseRegistrationService([generateCourseWithMissingPrerequisites('1')], [generateStudent(studentId)]);
+        expect(registrationService.getEligibleCourses(studentId).length).toEqual(0);
+    });
+
+    it("should return empty array if no courses match - no seats", () => {
+        const studentId = '1';
+        registrationService = new CourseRegistrationService([generateCourseWithNoSeats('1')], [generateStudent(studentId)]);
+        expect(registrationService.getEligibleCourses(studentId).length).toEqual(0);
+    });
+
+    it("should return empty array if no courses match - credit hour limit exceeded", () => {
+        const studentId = '1';
+        registrationService = new CourseRegistrationService([generateCourseWithCreditHoursLimit('1')], [generateStudent(studentId)]);
+        expect(registrationService.getEligibleCourses(studentId).length).toEqual(0);
+    });
+
+    it("should return valid courses", () => {
+        const studentId = '1';
+        const courseId = '1';
+        registrationService = new CourseRegistrationService([
+                generateCourseWithMissingPrerequisites(courseId + '1'),
+                generateCourseWithNoSeats(courseId + '2'),
+                generateCourseWithCreditHoursLimit(courseId + '3'),
+                generateCourse(courseId)
+            ],
+            [generateStudent(studentId)]);
+        const result = registrationService.getEligibleCourses(studentId);
+        expect(result.length).toEqual(1);
+        expect(result[0].id).toEqual(courseId);
     });
 });
