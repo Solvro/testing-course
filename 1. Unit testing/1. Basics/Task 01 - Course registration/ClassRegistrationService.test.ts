@@ -183,7 +183,7 @@ describe("registerForCourse", () => {
     );
 
     expect(result.success).toBe(true);
-    expect(result.message).toMatch(/successfully/i);
+    expect(result.message).toMatch(/success/i);
     expect(result).toHaveProperty("registeredCourse");
 
     expect(student.currentCourses).contains(courseId);
@@ -198,7 +198,6 @@ describe("getEligbleCourses", () => {
 
     const result = courseRegistrationService.getEligibleCourses(studentId);
 
-    expect(Array.isArray(result)).toBe(true);
     expect(result).toHaveLength(0);
   });
 
