@@ -51,8 +51,15 @@ export function parseExamSchedule(json: string): Exam[] {
     if (typeof item.subject !== "string") errs.push("subject");
     if (typeof item.date !== "string") errs.push("date");
     if (typeof item.durationMinutes !== "number") errs.push("durationMinutes");
+    else if (item.durationMinutes <= 0) {
+      throw new Error(`Negative durationMinutes at index ${idx}`);
+    }
     if (typeof item.location !== "string") errs.push("location");
     if (typeof item.fee !== "number") errs.push("fee");
+    else if (item.fee < 0) {
+      throw new Error(`Negative fee at index ${idx}`);
+    }
+
     if (typeof item.earlyBirdDeadline !== "string")
       errs.push("earlyBirdDeadline");
     if (typeof item.registrationDeadline !== "string")
