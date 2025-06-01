@@ -54,14 +54,14 @@ export class SupervisorManager {
           .flat();
         const matchCount = terms.reduce(
           (acc, t) => acc + (topicWords.includes(t) ? 1 : 0),
-          0
+          0,
         );
         return { sp, matchCount };
       })
       // Optionally exclude full supervisors
       .filter(
         ({ sp, matchCount }) =>
-          includeFull || sp.currentLoad < sp.maxLoad || matchCount > 0
+          includeFull || sp.currentLoad < sp.maxLoad || matchCount > 0,
       )
       // Sort by:
       // 1) matchCount desc
