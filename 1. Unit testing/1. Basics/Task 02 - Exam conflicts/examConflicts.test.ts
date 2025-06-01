@@ -20,6 +20,25 @@ describe('parseExamSchedule', () => {
             earlyBirdDeadline: new Date('2023-09-02T00:00:00.000Z'),
             registrationDeadline: new Date('2023-10-01T23:59:59.000Z'),
         };
+    const earlyDateAfterRegExam = {
+            subject: 'Science',
+            date: new Date('2023-10-15T10:00:00.000Z'),
+            durationMinutes: 90,
+            location: 'Room 102',
+            fee: 150,
+            earlyBirdDeadline: new Date('2023-12-10T00:00:00.000Z'),
+            registrationDeadline: new Date('2023-10-11T23:59:59.000Z'),
+    }
+    const regAfterExamExam = {
+            subject: 'Physics',
+            date: new Date('2023-10-20T10:00:00.000Z'),
+            durationMinutes: 90,
+            location: 'Room 103',
+            fee: 150,
+            earlyBirdDeadline: new Date('2023-10-15T00:00:00.000Z'),
+            registrationDeadline: new Date('2023-10-21T23:59:59.000Z'),
+    }
+
     const validExams = [exam1, exam2];
 
     const validJson = JSON.stringify(validExams);
@@ -41,6 +60,14 @@ describe('parseExamSchedule', () => {
     it('should throw an error if the json is not an array', () => {
         expect(() => parseExamSchedule(nonArrayJson)).toThrow('Expected an array of exams');
     });
+
+    it('should throw an error if business rule for dates early-reg is violated', () => {
+        expect(() => parseExamSchedule(JSON.stringify([earlyDateAfterRegExam]))).toThrow(/Early-bird deadline after registration deadline/i);
+    });
+
+    it('should throw an error if business rule for dates reg-exam is violated', () => {
+        expect(() => parseExamSchedule(JSON.stringify([regAfterExamExam]))).toThrow(/Registration deadline after exam date/i);
+    })
 
     it.each([
         {field: "subject", "json": JSON.stringify([{...exam1, subject: 123}]), "error": "missing/invalid fields: subject"},
