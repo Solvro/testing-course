@@ -24,7 +24,7 @@ export interface Reminder {
   sendAt: Date;
   message: string;
 }
-    
+
 export interface Conflict {
   examA: Exam;
   examB: Exam;
