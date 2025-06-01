@@ -32,12 +32,9 @@ describe("canRegister", () => {
 			now: new Date("2025-07-01"),
 			result: false,
 		},
-	])(
-		"should return $result if current date is $scenario",
-		({ now, result }) => {
-			expect(canRegister(exam, now)).toBe(result);
-		}
-	);
+	])("should return $result if current date is $scenario", ({ now, result }) => {
+		expect(canRegister(exam, now)).toBe(result);
+	});
 });
 
 describe("computeRegistrationFee", () => {
