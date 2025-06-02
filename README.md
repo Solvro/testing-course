@@ -28,7 +28,7 @@ Co ma być zrobione:
 Zaczynamy:
 
 - Code review etapu 1 partnera
-- Etap 2 - TBD
+- Etap 2 - Mockowanie + statyczna analiza kodu **dla chętnych**
 
 ### 10.06
 
