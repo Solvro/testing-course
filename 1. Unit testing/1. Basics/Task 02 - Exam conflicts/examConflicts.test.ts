@@ -1,5 +1,5 @@
 import { it, expect, describe } from 'vitest';
-import { canRegister, Exam } from './examConflict';
+import { canRegister, Exam } from './examConflicts';
 
 describe('canRegister', () => {
     const exam: Exam = {
