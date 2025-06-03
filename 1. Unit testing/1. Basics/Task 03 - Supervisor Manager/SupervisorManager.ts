@@ -59,10 +59,12 @@ export class SupervisorManager {
         return { sp, matchCount };
       })
       // Optionally exclude full supervisors
-      .filter(
-        ({ sp, matchCount }) =>
-          includeFull || sp.currentLoad < sp.maxLoad || matchCount > 0
-      )
+      // ...existing code...
+            .filter(
+              ({ sp, matchCount }) =>
+                (terms.length === 0 || matchCount > 0) && (includeFull || sp.currentLoad < sp.maxLoad)
+            )
+      // ...existing code...
       // Sort by:
       // 1) matchCount desc
       // 2) rating desc
