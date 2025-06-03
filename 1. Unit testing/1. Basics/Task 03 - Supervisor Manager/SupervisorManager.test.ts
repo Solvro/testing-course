@@ -47,7 +47,7 @@ describe('SupervisorManager tests', () => {
   it('should add a supervisior', () => {
     supervisorManager.addSupervisor(supervisors[0]);
 
-    const results = supervisorManager.findSupervisors('AI');
+    const results = supervisorManager.findSupervisors('Bob');
     expect(results).toHaveLength(1);
     expect(results[0]).toMatchObject(supervisors[0]);
   });
@@ -64,7 +64,7 @@ describe('SupervisorManager tests', () => {
     supervisorManager.addSupervisor(supervisors[1]);
     supervisorManager.removeSupervisor('1');
     
-    const results = supervisorManager.findSupervisors('');
+    const results = supervisorManager.findSupervisors('Bob');
     expect(results).toHaveLength(1);
     expect(results[0]).toMatchObject(supervisors[0]);
   });
@@ -77,7 +77,7 @@ describe('SupervisorManager tests', () => {
     supervisorManager.addSupervisor(supervisors[0]);
     supervisorManager.updateSupervisor('0', {name: 'Andrew', rating: 2})
 
-    const results = supervisorManager.findSupervisors('');
+    const results = supervisorManager.findSupervisors('Andrew');
     expect(results[0].name).toBe('Andrew');
     expect(results[0].rating).toBe(2);
   })
