@@ -18,7 +18,16 @@ Napisz test do wybranych funkcji (minimum 1) z przypisanego zadania końcowego. 
 2. [Zadanie 2](./Task%2002%20-%20Exam%20conflicts/) - konflikty egzaminów
 3. [Zadanie 3](./Task%2003%20-%20Supervisor%20Manager/) - menedżer promotorów
 
-Jak odpalić testy?
+### Oddanie zadania
+
+Aby oddać zadanie, należy wykonać pull requesta do tego repozytorium, po czym oznaczacie przypisaną wam osobę do review. Format PR'a powinien być następujący:
+
+- branch: `imie-nazwisko/2-mocks`, np. `bartosz-gotowski/2-mocks`
+- tytuł: `Imię Nazwisko - Etap 2, Mocki, zadanie nr X`, np. `Bartosz Gotowski - Etap 2, Mocki, zadanie nr 1`
+
+PR powinien zawierać jedynie obecnie oddawane zadanie!!! Uważajcie, żeby przypadkiem przypadkiem nie dodać poprzednich zadań. Zacznijcie brancha na świeżo z `main`a, żeby nie było problemów.
+
+### Jak odpalić testy?
 
 1. Sklonuj repozytorium.
 
