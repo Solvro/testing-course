@@ -18,6 +18,8 @@ Napisz test do wybranych funkcji (minimum 1) z przypisanego zadania końcowego. 
 2. [Zadanie 2](./Task%2002%20-%20Exam%20conflicts/) - konflikty egzaminów
 3. [Zadanie 3](./Task%2003%20-%20Supervisor%20Manager/) - menedżer promotorów
 
+Dodatkowo pamiętaj o zrobienu review PR'ki partnera z poprzedniego zadania - jest to wymagane do zaliczenia zadania.
+
 ### Oddanie zadania
 
 Aby oddać zadanie, należy wykonać pull requesta do tego repozytorium, po czym oznaczacie przypisaną wam osobę do review. Format PR'a powinien być następujący:
