@@ -1,5 +1,9 @@
 # Stwórz swój @solvro/config
 
+**OPCJONALNA** część kursu, która wprowadza w temat statycznej analizy kodu. Dowiesz się jak skonfigurować ESLint i Prettier, żeby poprawić jakość swojego kodu.
+
+Nie musisz jej robić, ale zachęcam zainteresowanych, sam też będę zerkał na pr'ki z tym zadankiem, żeby coś podpowiedzieć.
+
 ## Części kursu
 
 - [Statyczna analiza kodu](https://drive.google.com/drive/folders/1PBNYXeO3DjcfDJdLjJNCDuriwcPSpStH?usp=drive_link)
@@ -27,3 +31,12 @@ Dla ambitnych:
 Dla bardzo ambitnych:
 
 - Dodaj formatowanie i lintowanie do Github Actions
+
+### Oddanie zadania
+
+Aby oddać zadanie, należy wykonać pull requesta do tego repozytorium, po czym oznaczacie przypisaną wam osobę do review. Format PR'a powinien być następujący:
+
+- branch: `imie-nazwisko/3-static-analysis`, np. `bartosz-gotowski/3-static-analysis`
+- tytuł: `Imię Nazwisko - Etap 3, Statyczna analiza kodu, zadanie nr X`, np. `Bartosz Gotowski - Etap 3, Statyczna analiza kodu, zadanie nr 1`
+
+PR powinien zawierać jedynie obecnie oddawane zadanie!!! Uważajcie, żeby przypadkiem przypadkiem nie dodać poprzednich zadań. Zacznijcie brancha na świeżo z `main`a, żeby nie było problemów.
