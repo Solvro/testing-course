@@ -55,6 +55,15 @@ export class ExamConflicts {
       throw new Error(`Exam with ID ${id} not found`);
     }
 
+    if (result.length > 1) {
+      // Would it be better to throw an error?
+      console.warn(
+        `Multiple exams found with ID ${id}\nReturning exam: ${JSON.stringify(
+          result[0]
+        )}`
+      );
+    }
+
     const examRaw = result[0] as ExamRaw;
     return this.convertToExam(examRaw);
   }
