@@ -1,8 +1,16 @@
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { db } from "../utils/db";
 import { ExamConflicts, type ExamRaw } from "./ExamConflicts";
 
-vi.mock("../utils/db.ts");
+vi.mock("pg", () => ({
+  Pool: vi.fn(function () {
+    this.query = vi.fn(async (query: string, params?: unknown[]) => ({
+      rows:
+        params == null
+          ? MOCKED_EXAMS
+          : MOCKED_EXAMS.filter((exam) => exam.id === params[0]),
+    }));
+  }),
+}));
 
 function mockDateInJuly() {
   vi.setSystemTime(new Date("2025-07-01T00:00:00Z"));
@@ -41,20 +49,12 @@ const MOCKED_EXAMS: ExamRaw[] = [
   },
 ];
 
-function mockedDbSql(query: string, params?: unknown[]) {
-  if (params == null) {
-    return Promise.resolve(MOCKED_EXAMS);
-  }
-  return Promise.resolve(MOCKED_EXAMS.filter((exam) => exam.id === params[0]));
-}
-
 describe("ExamConflicts", () => {
   let examConflicts: ExamConflicts;
 
   beforeAll(() => {
     mockDateInJuly();
     examConflicts = new ExamConflicts();
-    vi.mocked(db.sql).mockImplementation(mockedDbSql);
   });
 
   it("should throw an error if not in July", () => {
