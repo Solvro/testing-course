@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { ExamConflicts, type ExamRaw } from "./ExamConflicts";
+import type { ExamRaw } from "./ExamConflicts";
+import { ExamConflicts } from "./ExamConflicts";
 
+// Mock the database connection to always return the hardcoded exams
 vi.mock("pg", () => ({
   Pool: vi.fn(function () {
     this.query = vi.fn(async (query: string, params?: unknown[]) => ({
