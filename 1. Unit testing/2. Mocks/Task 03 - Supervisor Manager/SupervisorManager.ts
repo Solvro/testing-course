@@ -19,7 +19,11 @@ export class SupervisorManager {
     const now = new Date();
 
     // NIE USUWAĆ TEGO - poradź sobie mockami :3
-    if (now.getHours() < 3 || now.getHours() > 5) {
+    if (
+      now.getHours() < 3 ||
+      now.getHours() > 5 ||
+      (now.getHours() === 5 && (now.getMinutes() > 0 || now.getSeconds() > 0))
+    ) {
       throw new Error(
         "Supervisors are only available between 3:00 AM and 5:00 AM"
       );
