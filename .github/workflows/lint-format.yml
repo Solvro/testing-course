@@ -19,6 +19,10 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install Husky before prepare script
+        run: npm install husky --save-dev
+        working-directory: "1. Unit testing"
+
       - name: Install dependencies
         run: npm install
         working-directory: "1. Unit testing"
