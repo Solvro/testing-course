@@ -1,0 +1,29 @@
+name: Lint and Format
+
+on:
+  push:
+    branches: [main, bohdan-koshkin/3-static-analysis]
+  pull_request:
+    branches: [main, bohdan-koshkin/3-static-analysis]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier check
+        run: npm run format:check

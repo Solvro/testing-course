@@ -3,6 +3,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "format": "prettier . --write",
+    "format:check": "prettier --check .",
     "lint": "eslint \"3. Static analysis/test.ts\"",
     "prepare": "husky"
   },
