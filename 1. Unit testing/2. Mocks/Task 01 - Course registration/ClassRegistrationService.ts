@@ -225,9 +225,11 @@ export class CourseRegistrationService {
       return [];
     }
 
-    return course.prerequisites.filter(
-      (prerequisiteId) => !student.completedCourses.includes(prerequisiteId)
-    );
+    return course.prerequisites
+      .filter((id) => id !== course.id) // ignore self
+      .filter(
+        (prerequisiteId) => !student.completedCourses.includes(prerequisiteId)
+      );
   }
 
   /**
