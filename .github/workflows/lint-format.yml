@@ -21,9 +21,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: "1. Unit testing"
 
       - name: Run ESLint
         run: npm run lint
+        working-directory: "1. Unit testing"
 
       - name: Run Prettier check
         run: npm run format:check
+        working-directory: "1. Unit testing"
