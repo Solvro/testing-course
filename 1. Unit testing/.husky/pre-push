@@ -1,3 +1,3 @@
 cd '1. Unit testing'
 npx vitest run
-npx eslint --ignore-pattern="3. Static analysis/test.ts"
+npm run lint

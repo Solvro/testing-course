@@ -3,7 +3,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "format": "prettier --write .",
-    "lint": "eslint"
+    "format:check": "prettier --check .",
+    "lint": "eslint --ignore-pattern='3. Static analysis/test.ts'"
   },
   "type": "module",
   "devDependencies": {
