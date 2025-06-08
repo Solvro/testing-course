@@ -169,7 +169,7 @@ export class ExamConflicts {
         const overlapEnd = Math.min(aEnd, bEnd);
         if (overlapEnd > overlapStart) {
           const overlapMinutes = Math.floor(
-            (overlapEnd - overlapStart) / 60_000
+            (overlapEnd - overlapStart) / 60_000,
           );
           conflicts.push({ examA: a, examB: b, overlapMinutes });
         }

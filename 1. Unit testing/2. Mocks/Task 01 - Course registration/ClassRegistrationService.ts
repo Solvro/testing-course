@@ -40,7 +40,7 @@ export class CourseRegistrationService {
     // NIE USUWAĆ TEGO - poradź sobie mockami :3
     if (now.getMonth() !== 1 && now.getMonth() !== 8) {
       throw new Error(
-        "Registration is only available in February and September"
+        "Registration is only available in February and September",
       );
     }
   }
@@ -70,7 +70,7 @@ export class CourseRegistrationService {
    */
   async registerForCourse(
     studentId: string,
-    courseId: string
+    courseId: string,
   ): Promise<RegistrationResult> {
     // Get student and course
     const student = await this.getStudent(studentId);
@@ -104,7 +104,7 @@ export class CourseRegistrationService {
         missingPrerequisites.map(async (id) => {
           const prerequisiteCourse = await this.getCourse(id);
           return prerequisiteCourse?.code || id;
-        })
+        }),
       );
 
       return {
@@ -165,7 +165,7 @@ export class CourseRegistrationService {
    */
   async dropCourse(
     studentId: string,
-    courseId: string
+    courseId: string,
   ): Promise<RegistrationResult> {
     // Get student and course
     const student = await this.getStudent(studentId);
@@ -219,14 +219,14 @@ export class CourseRegistrationService {
    */
   private async checkPrerequisites(
     student: Student,
-    course: Course
+    course: Course,
   ): Promise<string[]> {
     if (!course.prerequisites || course.prerequisites.length === 0) {
       return [];
     }
 
     return course.prerequisites.filter(
-      (prerequisiteId) => !student.completedCourses.includes(prerequisiteId)
+      (prerequisiteId) => !student.completedCourses.includes(prerequisiteId),
     );
   }
 
@@ -235,14 +235,14 @@ export class CourseRegistrationService {
    */
   private async hasScheduleConflict(
     student: Student,
-    newCourse: Course
+    newCourse: Course,
   ): Promise<boolean> {
     // Get all currently registered courses
     const currentCourses = await Promise.all(
-      student.currentCourses.map(async (id) => await this.getCourse(id))
+      student.currentCourses.map(async (id) => await this.getCourse(id)),
     );
     const validCurrentCourses = currentCourses.filter(
-      (course) => course !== undefined
+      (course) => course !== undefined,
     ) as Course[];
 
     // Check each day and time slot for conflicts
@@ -257,7 +257,7 @@ export class CourseRegistrationService {
                 newSlot.startTime,
                 newSlot.endTime,
                 existingSlot.startTime,
-                existingSlot.endTime
+                existingSlot.endTime,
               )
             ) {
               return true;
@@ -277,7 +277,7 @@ export class CourseRegistrationService {
     start1: string,
     end1: string,
     start2: string,
-    end2: string
+    end2: string,
   ): boolean {
     // Convert times to minutes for easier comparison
     const start1Minutes = this.timeToMinutes(start1);

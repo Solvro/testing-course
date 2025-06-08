@@ -25,7 +25,7 @@ export class SupervisorManager {
       (now.getHours() === 5 && (now.getMinutes() > 0 || now.getSeconds() > 0))
     ) {
       throw new Error(
-        "Supervisors are only available between 3:00 AM and 5:00 AM"
+        "Supervisors are only available between 3:00 AM and 5:00 AM",
       );
     }
   }
@@ -51,7 +51,7 @@ export class SupervisorManager {
         sp.rating,
         sp.currentLoad,
         sp.maxLoad,
-      ]
+      ],
     );
   }
 
@@ -68,7 +68,7 @@ export class SupervisorManager {
   // Update existing supervisor fields (partial update)
   async updateSupervisor(
     id: string,
-    updates: Partial<Omit<Supervisor, "id">>
+    updates: Partial<Omit<Supervisor, "id">>,
   ): Promise<void> {
     const existingSupervisors = await this.getAllSupervisors();
     const sp = existingSupervisors.find((s) => s.id === id);
@@ -94,7 +94,7 @@ export class SupervisorManager {
   // Main search method: match query words to expertiseTopics.
   async findSupervisors(
     query: string,
-    options: SearchOptions = {}
+    options: SearchOptions = {},
   ): Promise<Supervisor[]> {
     const { maxResults = Infinity, includeFull = false } = options;
     const terms = SupervisorManager.tokenize(query);
@@ -110,14 +110,14 @@ export class SupervisorManager {
           .flat();
         const matchCount = terms.reduce(
           (acc, t) => acc + (topicWords.includes(t) ? 1 : 0),
-          0
+          0,
         );
         return { sp, matchCount };
       })
       // Optionally exclude full supervisors
       .filter(
         ({ sp, matchCount }) =>
-          includeFull || sp.currentLoad < sp.maxLoad || matchCount > 0
+          includeFull || sp.currentLoad < sp.maxLoad || matchCount > 0,
       )
       // Sort by:
       // 1) matchCount desc
