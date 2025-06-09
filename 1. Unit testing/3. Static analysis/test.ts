@@ -1,28 +1,29 @@
 // Kod łamiący regułę
 // TUTAJ
 
-function greetIncorrect(
-  name,
-) {
-  console.log(
-    "Hello, " +
-      name,
-  );
-  if (
-    name == "Admin"
-  )
-    return "Welcome Admin";
+// this code violates elsint rules. Uncomment it to check
+// function greetIncorrect(
+//   name,
+// ) {
+//   console.log(
+//     "Hello, " +
+//       name,
+//   );
+//   if (
+//     name == "Admin"
+//   )
+//     return "Welcome Admin";
 
-  return "Hi";
-}
+//   return "Hi";
+// }
 
-const getUserIncorrect =
-  () => {
-    return {
-      id: 1,
-      name: "test",
-    };
-  };
+// const getUserIncorrect =
+//   () => {
+//     return {
+//       id: 1,
+//       name: "test",
+//     };
+//   };
 
 // Kod, który jest zgodny z regułą
 // TUTAJ
