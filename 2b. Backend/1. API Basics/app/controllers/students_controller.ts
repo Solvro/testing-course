@@ -2,7 +2,6 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Student from '#models/student'
 import { createStudentValidator } from '#validators/create_student'
 
-
 export default class StudentsController {
   /**
    * Display a list of resource

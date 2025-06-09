@@ -27,4 +27,3 @@ router.post('/api/v1/registrations', [RegistrationsController, 'store'])
 router.get('/api/v1/registrations', [RegistrationsController, 'index'])
 router.get('/api/v1/registrations/:id', [RegistrationsController, 'show'])
 router.delete('/api/v1/registrations/:id', [RegistrationsController, 'destroy'])
-

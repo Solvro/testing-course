@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import CourseGroup from "#models/course_group";
+import CourseGroup from '#models/course_group'
 import { createCourseGroupValidator } from '#validators/create_course_group'
 
 export default class CourseGroupsController {
