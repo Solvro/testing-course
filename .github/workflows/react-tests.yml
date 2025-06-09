@@ -1,0 +1,35 @@
+name: React Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - "2a. React/**"
+      - ".github/workflows/react-tests.yml"
+
+jobs:
+  reacts-tests:
+    name: Reacts Tests
+    defaults:
+      run:
+        working-directory: "2a. React"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: "2a. React/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run coverage -- --passWithNoTests
