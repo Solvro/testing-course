@@ -12,7 +12,12 @@ export interface Course {
 }
 
 export interface ClassSchedule {
-  day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday";
+  day:
+    | "Monday"
+    | "Tuesday"
+    | "Wednesday"
+    | "Thursday"
+    | "Friday";
   startTime: string; // Format: "HH:MM" in 24-hour format
   endTime: string; // Format: "HH:MM" in 24-hour format
   location: string;
@@ -35,12 +40,18 @@ export interface RegistrationResult {
 // Main service class for students to test
 export class CourseRegistrationService {
   constructor() {
-    const now = new Date();
+    const now =
+      new Date();
 
     // NIE USUWAĆ TEGO - poradź sobie mockami :3
-    if (now.getMonth() !== 1 && now.getMonth() !== 8) {
+    if (
+      now.getMonth() !==
+        1 &&
+      now.getMonth() !==
+        8
+    ) {
       throw new Error(
-        "Registration is only available in February and September"
+        "Registration is only available in February and September",
       );
     }
   }
@@ -48,21 +59,41 @@ export class CourseRegistrationService {
   /**
    * Get a course by its ID
    */
-  async getCourse(courseId: string): Promise<Course | undefined> {
-    const rows = await db.sql("SELECT * FROM courses WHERE id = $1", [
-      courseId,
-    ]);
-    return rows.length > 0 ? (rows[0] as Course) : undefined;
+  async getCourse(
+    courseId: string,
+  ): Promise<
+    | Course
+    | undefined
+  > {
+    const rows =
+      await db.sql(
+        "SELECT * FROM courses WHERE id = $1",
+        [courseId],
+      );
+    return rows.length >
+      0
+      ? (rows[0] as Course)
+      : undefined;
   }
 
   /**
    * Get a student by their ID
    */
-  async getStudent(studentId: string): Promise<Student | undefined> {
-    const rows = await db.sql("SELECT * FROM students WHERE id = $1", [
-      studentId,
-    ]);
-    return rows.length > 0 ? (rows[0] as Student) : undefined;
+  async getStudent(
+    studentId: string,
+  ): Promise<
+    | Student
+    | undefined
+  > {
+    const rows =
+      await db.sql(
+        "SELECT * FROM students WHERE id = $1",
+        [studentId],
+      );
+    return rows.length >
+      0
+      ? (rows[0] as Student)
+      : undefined;
   }
 
   /**
@@ -70,93 +101,155 @@ export class CourseRegistrationService {
    */
   async registerForCourse(
     studentId: string,
-    courseId: string
+    courseId: string,
   ): Promise<RegistrationResult> {
     // Get student and course
-    const student = await this.getStudent(studentId);
+    const student =
+      await this.getStudent(
+        studentId,
+      );
     if (!student) {
       return {
-        success: false,
+        success:
+          false,
         message: `Student with ID ${studentId} not found`,
       };
     }
 
-    const course = await this.getCourse(courseId);
+    const course =
+      await this.getCourse(
+        courseId,
+      );
     if (!course) {
       return {
-        success: false,
+        success:
+          false,
         message: `Course with ID ${courseId} not found`,
       };
     }
 
     // Check if student is already registered for this course
-    if (student.currentCourses.includes(courseId)) {
+    if (
+      student.currentCourses.includes(
+        courseId,
+      )
+    ) {
       return {
-        success: false,
+        success:
+          false,
         message: `Student is already registered for ${course.code}`,
       };
     }
 
     // Check if prerequisites are met
-    const missingPrerequisites = await this.checkPrerequisites(student, course);
-    if (missingPrerequisites.length > 0) {
-      const missingCourses = await Promise.all(
-        missingPrerequisites.map(async (id) => {
-          const prerequisiteCourse = await this.getCourse(id);
-          return prerequisiteCourse?.code || id;
-        })
+    const missingPrerequisites =
+      await this.checkPrerequisites(
+        student,
+        course,
       );
+    if (
+      missingPrerequisites.length >
+      0
+    ) {
+      const missingCourses =
+        await Promise.all(
+          missingPrerequisites.map(
+            async (
+              id,
+            ) => {
+              const prerequisiteCourse =
+                await this.getCourse(
+                  id,
+                );
+              return (
+                prerequisiteCourse?.code ||
+                id
+              );
+            },
+          ),
+        );
 
       return {
-        success: false,
+        success:
+          false,
         message: `Missing prerequisites: ${missingCourses.join(", ")}`,
       };
     }
 
     // Check for schedule conflicts
-    const hasConflict = await this.hasScheduleConflict(student, course);
-    if (hasConflict) {
+    const hasConflict =
+      await this.hasScheduleConflict(
+        student,
+        course,
+      );
+    if (
+      hasConflict
+    ) {
       return {
-        success: false,
+        success:
+          false,
         message: `Schedule conflict detected with course ${course.code}`,
       };
     }
 
     // Check seat availability
-    if (course.availableSeats <= 0) {
+    if (
+      course.availableSeats <=
+      0
+    ) {
       return {
-        success: false,
+        success:
+          false,
         message: `No available seats for course ${course.code}`,
       };
     }
 
     // Check credit hour limits
-    const currentCreditHours = await this.calculateCurrentCreditHours(student);
-    if (currentCreditHours + course.creditHours > student.maxCreditHours) {
+    const currentCreditHours =
+      await this.calculateCurrentCreditHours(
+        student,
+      );
+    if (
+      currentCreditHours +
+        course.creditHours >
+      student.maxCreditHours
+    ) {
       return {
-        success: false,
+        success:
+          false,
         message: `Registering for this course would exceed the maximum of ${student.maxCreditHours} credit hours`,
       };
     }
 
     // All checks passed, register the student
-    student.currentCourses.push(courseId);
+    student.currentCourses.push(
+      courseId,
+    );
     course.availableSeats--;
 
     // Update the database
-    await db.sql("UPDATE students SET current_courses = $1 WHERE id = $2", [
-      JSON.stringify(student.currentCourses),
-      studentId,
-    ]);
-    await db.sql("UPDATE courses SET available_seats = $1 WHERE id = $2", [
-      course.availableSeats,
-      courseId,
-    ]);
+    await db.sql(
+      "UPDATE students SET current_courses = $1 WHERE id = $2",
+      [
+        JSON.stringify(
+          student.currentCourses,
+        ),
+        studentId,
+      ],
+    );
+    await db.sql(
+      "UPDATE courses SET available_seats = $1 WHERE id = $2",
+      [
+        course.availableSeats,
+        courseId,
+      ],
+    );
 
     return {
       success: true,
       message: `Successfully registered for ${course.code}`,
-      registeredCourse: course,
+      registeredCourse:
+        course,
     };
   }
 
@@ -165,47 +258,73 @@ export class CourseRegistrationService {
    */
   async dropCourse(
     studentId: string,
-    courseId: string
+    courseId: string,
   ): Promise<RegistrationResult> {
     // Get student and course
-    const student = await this.getStudent(studentId);
+    const student =
+      await this.getStudent(
+        studentId,
+      );
     if (!student) {
       return {
-        success: false,
+        success:
+          false,
         message: `Student with ID ${studentId} not found`,
       };
     }
 
-    const course = await this.getCourse(courseId);
+    const course =
+      await this.getCourse(
+        courseId,
+      );
     if (!course) {
       return {
-        success: false,
+        success:
+          false,
         message: `Course with ID ${courseId} not found`,
       };
     }
 
     // Check if student is registered for this course
-    const courseIndex = student.currentCourses.indexOf(courseId);
-    if (courseIndex === -1) {
+    const courseIndex =
+      student.currentCourses.indexOf(
+        courseId,
+      );
+    if (
+      courseIndex ===
+      -1
+    ) {
       return {
-        success: false,
+        success:
+          false,
         message: `Student is not registered for ${course.code}`,
       };
     }
 
     // Remove the course
-    student.currentCourses.splice(courseIndex, 1);
+    student.currentCourses.splice(
+      courseIndex,
+      1,
+    );
     course.availableSeats++;
 
     // Update the database
-    await db.sql("UPDATE students SET current_courses = $1 WHERE id = $2", [
-      JSON.stringify(student.currentCourses),
-      studentId,
-    ]);
-    await db.sql("UPDATE courses SET available_seats = $1 WHERE id = $2", [
-      course.availableSeats,
-      courseId,
-    ]);
+    await db.sql(
+      "UPDATE students SET current_courses = $1 WHERE id = $2",
+      [
+        JSON.stringify(
+          student.currentCourses,
+        ),
+        studentId,
+      ],
+    );
+    await db.sql(
+      "UPDATE courses SET available_seats = $1 WHERE id = $2",
+      [
+        course.availableSeats,
+        courseId,
+      ],
+    );
 
     return {
       success: true,
@@ -219,14 +338,27 @@ export class CourseRegistrationService {
    */
   private async checkPrerequisites(
     student: Student,
-    course: Course
-  ): Promise<string[]> {
-    if (!course.prerequisites || course.prerequisites.length === 0) {
+    course: Course,
+  ): Promise<
+    string[]
+  > {
+    if (
+      !course.prerequisites ||
+      course
+        .prerequisites
+        .length ===
+        0
+    ) {
       return [];
     }
 
     return course.prerequisites.filter(
-      (prerequisiteId) => !student.completedCourses.includes(prerequisiteId)
+      (
+        prerequisiteId,
+      ) =>
+        !student.completedCourses.includes(
+          prerequisiteId,
+        ),
     );
   }
 
@@ -235,29 +367,43 @@ export class CourseRegistrationService {
    */
   private async hasScheduleConflict(
     student: Student,
-    newCourse: Course
+    newCourse: Course,
   ): Promise<boolean> {
     // Get all currently registered courses
-    const currentCourses = await Promise.all(
-      student.currentCourses.map(async (id) => await this.getCourse(id))
-    );
-    const validCurrentCourses = currentCourses.filter(
-      (course) => course !== undefined
-    ) as Course[];
+    const currentCourses =
+      await Promise.all(
+        student.currentCourses.map(
+          async (
+            id,
+          ) =>
+            await this.getCourse(
+              id,
+            ),
+        ),
+      );
+    const validCurrentCourses =
+      currentCourses.filter(
+        (course) =>
+          course !==
+          undefined,
+      ) as Course[];
 
     // Check each day and time slot for conflicts
     for (const newSlot of newCourse.schedule) {
       for (const existingCourse of validCurrentCourses) {
         for (const existingSlot of existingCourse.schedule) {
           // Check if the days match
-          if (newSlot.day === existingSlot.day) {
+          if (
+            newSlot.day ===
+            existingSlot.day
+          ) {
             // Check if times overlap
             if (
               this.timesOverlap(
                 newSlot.startTime,
                 newSlot.endTime,
                 existingSlot.startTime,
-                existingSlot.endTime
+                existingSlot.endTime,
               )
             ) {
               return true;
@@ -277,34 +423,68 @@ export class CourseRegistrationService {
     start1: string,
     end1: string,
     start2: string,
-    end2: string
+    end2: string,
   ): boolean {
     // Convert times to minutes for easier comparison
-    const start1Minutes = this.timeToMinutes(start1);
-    const end1Minutes = this.timeToMinutes(end1);
-    const start2Minutes = this.timeToMinutes(start2);
-    const end2Minutes = this.timeToMinutes(end2);
+    const start1Minutes =
+      this.timeToMinutes(
+        start1,
+      );
+    const end1Minutes =
+      this.timeToMinutes(
+        end1,
+      );
+    const start2Minutes =
+      this.timeToMinutes(
+        start2,
+      );
+    const end2Minutes =
+      this.timeToMinutes(
+        end2,
+      );
 
     // Check for overlap
-    return start1Minutes < end2Minutes && start2Minutes < end1Minutes;
+    return (
+      start1Minutes <
+        end2Minutes &&
+      start2Minutes <
+        end1Minutes
+    );
   }
 
   /**
    * Convert time string (HH:MM) to minutes since midnight
    */
-  private timeToMinutes(time: string): number {
-    const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
+  private timeToMinutes(
+    time: string,
+  ): number {
+    const [
+      hours,
+      minutes,
+    ] = time
+      .split(":")
+      .map(Number);
+    return (
+      hours * 60 +
+      minutes
+    );
   }
 
   /**
    * Calculate current credit hours for a student
    */
-  private async calculateCurrentCreditHours(student: Student): Promise<number> {
+  private async calculateCurrentCreditHours(
+    student: Student,
+  ): Promise<number> {
     let total = 0;
     for (const courseId of student.currentCourses) {
-      const course = await this.getCourse(courseId);
-      total += course?.creditHours || 0;
+      const course =
+        await this.getCourse(
+          courseId,
+        );
+      total +=
+        course?.creditHours ||
+        0;
     }
     return total;
   }
@@ -312,44 +492,79 @@ export class CourseRegistrationService {
   /**
    * Get all courses a student is eligible to register for
    */
-  async getEligibleCourses(studentId: string): Promise<Course[]> {
-    const student = await this.getStudent(studentId);
+  async getEligibleCourses(
+    studentId: string,
+  ): Promise<
+    Course[]
+  > {
+    const student =
+      await this.getStudent(
+        studentId,
+      );
     if (!student) {
       return [];
     }
 
     // Get all courses from database
-    const allCoursesRows = await db.sql("SELECT * FROM courses");
-    const allCourses = allCoursesRows as Course[];
+    const allCoursesRows =
+      await db.sql(
+        "SELECT * FROM courses",
+      );
+    const allCourses =
+      allCoursesRows as Course[];
 
     // Filter all courses to find eligible ones
-    const eligibleCourses: Course[] = [];
+    const eligibleCourses: Course[] =
+      [];
 
     for (const course of allCourses) {
       // Skip courses student is already taking
-      if (student.currentCourses.includes(course.id)) {
+      if (
+        student.currentCourses.includes(
+          course.id,
+        )
+      ) {
         continue;
       }
 
       // Check prerequisites
-      const missingPrereqs = await this.checkPrerequisites(student, course);
-      if (missingPrereqs.length > 0) {
+      const missingPrereqs =
+        await this.checkPrerequisites(
+          student,
+          course,
+        );
+      if (
+        missingPrereqs.length >
+        0
+      ) {
         continue;
       }
 
       // Check seat availability
-      if (course.availableSeats <= 0) {
+      if (
+        course.availableSeats <=
+        0
+      ) {
         continue;
       }
 
       // Check credit hour limit
-      const currentCredits = await this.calculateCurrentCreditHours(student);
-      if (currentCredits + course.creditHours > student.maxCreditHours) {
+      const currentCredits =
+        await this.calculateCurrentCreditHours(
+          student,
+        );
+      if (
+        currentCredits +
+          course.creditHours >
+        student.maxCreditHours
+      ) {
         continue;
       }
 
       // Course is eligible if it passes all checks
-      eligibleCourses.push(course);
+      eligibleCourses.push(
+        course,
+      );
     }
 
     return eligibleCourses;
