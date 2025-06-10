@@ -7,9 +7,11 @@ runs:
     - name: Set up Node
       uses: actions/setup-node@v4
       with:
-        node-version-file: ".node-version"
+        node-version-file: "./1. Unit testing/.node-version"
         cache: npm
+        cache-dependency-path: "./1. Unit testing/package-lock.json"
 
     - name: Install dependencies
       shell: bash
-      run: cd '1. Unit testing' && npm ci
+      run: npm ci
+      working-directory: ./1. Unit testing
