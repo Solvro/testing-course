@@ -51,4 +51,4 @@ describe("SupervisorManager.addSupervisor", () => {
       `Supervisor with id ${losowySupervisor.id} already exists`
     );
     });
-};
+});
