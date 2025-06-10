@@ -302,7 +302,8 @@ export class CourseRegistrationService {
    */
   private async calculateCurrentCreditHours(student: Student): Promise<number> {
     let total = 0;
-    for (const courseId of student.currentCourses) {
+    const currentCourses = Array.isArray(student.currentCourses) ? student.currentCourses : [];
+    for (const courseId of currentCourses) {
       const course = await this.getCourse(courseId);
       total += course?.creditHours || 0;
     }
@@ -317,17 +318,19 @@ export class CourseRegistrationService {
     if (!student) {
       return [];
     }
+    // Defensive: ensure currentCourses is always an array
+    const currentCourses = Array.isArray(student.currentCourses) ? student.currentCourses : [];
 
     // Get all courses from database
     const allCoursesRows = await db.sql("SELECT * FROM courses");
-    const allCourses = allCoursesRows as Course[];
+    const allCourses = Array.isArray(allCoursesRows) ? allCoursesRows as Course[] : [];
 
     // Filter all courses to find eligible ones
     const eligibleCourses: Course[] = [];
 
     for (const course of allCourses) {
       // Skip courses student is already taking
-      if (student.currentCourses.includes(course.id)) {
+      if (currentCourses.includes(course.id)) {
         continue;
       }
 
