@@ -39,8 +39,9 @@ describe("SupervisorManager.addSupervisor", () => {
         await manager.addSupervisor(losowySupervisor);
 
         expect(db.sql).toHaveBeenCalledWith(
-            "INSERT INTO supervisors (id, name, expertiseTopics, rating, currentLoad, maxLoad) VALUES (losowySupervisor.id, losowySupervisor.name, losowySupervisor.expertiseTopics, losowySupervisor.rating, losowySupervisor.currentLoad, losowySupervisor.maxLoad)",
+          `INSERT INTO supervisors (id, name, expertiseTopics, rating, currentLoad, maxLoad) VALUES ('${losowySupervisor.id}', '${losowySupervisor.name}', ARRAY['${losowySupervisor.expertiseTopics.join("','")}'], ${losowySupervisor.rating}, ${losowySupervisor.currentLoad}, ${losowySupervisor.maxLoad})`
         );
+
     });
 
     it("should throw an error if supervisor with the id already exists", async () => {
@@ -49,5 +50,5 @@ describe("SupervisorManager.addSupervisor", () => {
         await expect(manager.addSupervisor(losowySupervisor)).rejects.toThrow(
       `Supervisor with id ${losowySupervisor.id} already exists`
     );
-    })
+    });
 };
