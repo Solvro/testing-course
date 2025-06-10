@@ -83,6 +83,11 @@ export class ExamConflicts {
     };
   }
 
+  // utility function to convert an array of ExamRaw to array Exams
+  async convertAllToExams(examsRaw: ExamRaw[]): Promise<Exam[]> {
+    return examsRaw.map((examRaw) => this.convertToExam(examRaw));
+  }
+
   /**
    * Get a copy of all exams
    */
