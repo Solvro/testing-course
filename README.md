@@ -10,6 +10,7 @@ Te osoby zgłosiły się do kursu, ale go nie ukończyły, ani nie dały żadnej
 
 1. **Patryk Kuzdrowski** - [Kuzdra24](https://github.com/Kuzdra24)
 1. **Hubert Tański** - [HETTski](https://github.com/HETTski)
+1. **Tymon Jędryczka** - [jedryczkatymon](https://github.com/jedryczkatymon)
 
 ## Terminy
 
