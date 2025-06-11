@@ -122,7 +122,7 @@ describe("CourseRegistrationService", () => {
             name: "Sieci Komputerowe 3",
             creditHours: 3,
             availableSeats: 1,
-            prerequisites: ["course-0"],
+            prerequisites: ["course-2"],
             schedule: [],
         };
 
@@ -130,14 +130,14 @@ describe("CourseRegistrationService", () => {
             if (query.includes("FROM students")) return Promise.resolve([student]);
 
             if (query.includes("FROM courses WHERE id = $1")) {
-                if (params?.[0] === "course-2") return Promise.resolve([advancedCourse]);
-                if (params?.[0] === "course-0") return Promise.resolve([prerequisiteCourse]);
+                if (params?.[0] === "course-2") return Promise.resolve([prerequisiteCourse]);
+                if (params?.[0] === "course-3") return Promise.resolve([advancedCourse]);
             }
 
             return Promise.resolve([]);
         });
 
-        const result = await registrationService.registerForCourse("student-3", "course-2");
+        const result = await registrationService.registerForCourse("student-3", "course-3");
 
         expect(result.success).toBe(false);
         expect(result.message).toContain("Missing prerequisites: SK2");
