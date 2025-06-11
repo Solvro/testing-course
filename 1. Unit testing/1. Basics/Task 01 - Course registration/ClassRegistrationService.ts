@@ -192,7 +192,7 @@ export class CourseRegistrationService {
     }
 
     return course.prerequisites.filter(
-      (prerequisiteId) => !student.completedCourses.includes(prerequisiteId)
+      (prerequisiteId) => !student.completedCourses.includes(prerequisiteId),
     );
   }
 
@@ -217,7 +217,7 @@ export class CourseRegistrationService {
                 newSlot.startTime,
                 newSlot.endTime,
                 existingSlot.startTime,
-                existingSlot.endTime
+                existingSlot.endTime,
               )
             ) {
               return true;
@@ -237,7 +237,7 @@ export class CourseRegistrationService {
     start1: string,
     end1: string,
     start2: string,
-    end2: string
+    end2: string,
   ): boolean {
     // Convert times to minutes for easier comparison
     const start1Minutes = this.timeToMinutes(start1);

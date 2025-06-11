@@ -59,7 +59,7 @@ export function parseExamSchedule(json: string): Exam[] {
       errs.push("registrationDeadline");
     if (errs.length) {
       throw new Error(
-        `ExamRaw at index ${idx} missing/invalid fields: ${errs.join(", ")}`
+        `ExamRaw at index ${idx} missing/invalid fields: ${errs.join(", ")}`,
       );
     }
 
@@ -71,19 +71,19 @@ export function parseExamSchedule(json: string): Exam[] {
     }
     if (isNaN(dEarly.getTime())) {
       throw new Error(
-        `Invalid earlyBirdDeadline at index ${idx}: ${item.earlyBirdDeadline}`
+        `Invalid earlyBirdDeadline at index ${idx}: ${item.earlyBirdDeadline}`,
       );
     }
     if (isNaN(dReg.getTime())) {
       throw new Error(
-        `Invalid registrationDeadline at index ${idx}: ${item.registrationDeadline}`
+        `Invalid registrationDeadline at index ${idx}: ${item.registrationDeadline}`,
       );
     }
 
     // business rule: earlyBird <= registrationDeadline <= exam date
     if (dEarly.getTime() > dReg.getTime()) {
       throw new Error(
-        `Early-bird deadline after registration deadline at index ${idx}`
+        `Early-bird deadline after registration deadline at index ${idx}`,
       );
     }
     if (dReg.getTime() > dDate.getTime()) {
@@ -114,7 +114,7 @@ export function canRegister(exam: Exam, now: Date = new Date()): boolean {
 //    throws if too late.
 export function computeRegistrationFee(
   exam: Exam,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): number {
   if (now.getTime() <= exam.earlyBirdDeadline.getTime()) {
     return +(exam.fee * 0.8).toFixed(2);
@@ -132,7 +132,7 @@ export function computeRegistrationFee(
 export function scheduleExamReminders(
   exams: Exam[],
   daysBefore: number[],
-  now: Date = new Date()
+  now: Date = new Date(),
 ): Reminder[] {
   const msPerDay = 24 * 60 * 60 * 1000;
   const out: Reminder[] = [];
