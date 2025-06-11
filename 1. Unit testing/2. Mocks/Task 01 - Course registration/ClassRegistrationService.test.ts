@@ -142,4 +142,56 @@ describe("CourseRegistrationService", () => {
         expect(result.success).toBe(false);
         expect(result.message).toContain("Missing prerequisites: SK2");
     });
+
+    it("should successfully register when prerequisites are completed", async () => {
+        const student = {
+            id: "student-4",
+            name: "Kamil Ramocki",
+            completedCourses: ["course-4"],
+            currentCourses: [],
+            maxCreditHours: 6,
+        };
+
+        const prerequisiteCourse = {
+            id: "course-4",
+            code: "SK2",
+            name: "Sieci Komputerowe 2",
+            creditHours: 3,
+            availableSeats: 10,
+            prerequisites: [],
+            schedule: [],
+        };
+
+        const advancedCourse = {
+            id: "course-5",
+            code: "SK3",
+            name: "Sieci Komputerowe 3",
+            creditHours: 3,
+            availableSeats: 1,
+            prerequisites: ["course-4"],
+            schedule: [],
+        };
+
+        (db.sql as Mock).mockImplementation((query: string, params?: any[]) => {
+            if (query.includes("FROM students")) return Promise.resolve([student]);
+
+            if (query.includes("FROM courses WHERE id = $1")) {
+                if (params?.[0] === "course-4") return Promise.resolve([prerequisiteCourse]);
+                if (params?.[0] === "course-5") return Promise.resolve([advancedCourse]);
+            }
+
+            if (query.includes("FROM courses")) {
+                return Promise.resolve([prerequisiteCourse, advancedCourse]);
+            }
+
+            return Promise.resolve([]);
+        });
+
+        const result = await registrationService.registerForCourse("student-4", "course-5");
+
+        expect(result.success).toBe(true);
+        expect(result.message).toBe("Successfully registered for SK3");
+        expect(result.registeredCourse?.code).toBe("SK3");
+    });
+
 });
