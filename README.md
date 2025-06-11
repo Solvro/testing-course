@@ -45,15 +45,50 @@ Co ma być zrobione:
 - Termin na oddanie drugiego zadania - zrobiona PR'ka z testami
 - Code review pierwszego etapu partnera
 
+#### Wszyscy
+
 Zaczynamy:
 
-- Code review 2 etapu partnera
-- Etap 3 - TBD
+- Code review 2 etapu partnera, ja się zajmuję review etapu 3 - etapy dotyczą `1. Unit Testing`
+
+#### 2a. React.
+
+Zaczynamy:
+
+- Etap 1 z `2a. React` - Pierwsze testy Reacta i testy do SolvroComboboxa!
+
+#### 2b. Backend
+
+Czekamy na za tydzień. Nasi prowadzący gotują.
+
+### 17.06
+
+#### Wszyscy
+
+Co ma być zrobione:
+
+- Code review 2 etapu partnera z `1. Unit Testing`
+
+#### 2a. React
+
+Co ma być zrobione:
+
+- Termin na oddanie pierwszego etapu z `2a. React` - zrobiona PR'ka z testami
+
+Zaczynamy:
+
+- Code review pierwszego etapu partnera
+- TBD
+
+#### 2b. Backend
+
+TBD
 
 ## Osoby biorące udział w kursie
 
 1. ~~Hubert Tański - HETTski~~
 1. ~~Patryk Kuzdrowski - Kuzdra24~~
+1. ~~Tymon Jędryczka - jedryczkatymon~~
 1. Piotr Hirkyj - ibtyog
 1. Kamil Ramocki - kamilramocki
 1. Antoni Czaplicki - Antoni-Czaplicki
@@ -75,7 +110,6 @@ Zaczynamy:
 1. Wojciech Kosmalski - chewmanji
 1. Maciej Król - maciejkrol18
 1. Jakub Morawiec - jmorawiecpwr
-1. Tymon Jędryczka - jedryczkatymon
 1. Jakub Kobus - jakubkobus
 1. Karol Kosmala - K0smalka
 1. Michał Banaszkiewicz - bnszky
