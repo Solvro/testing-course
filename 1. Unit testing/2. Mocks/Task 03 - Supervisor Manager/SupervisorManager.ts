@@ -38,6 +38,7 @@ export class SupervisorManager {
   // Add a new supervisor. If id already exists, throw.
   async addSupervisor(sp: Supervisor): Promise<void> {
     const existingSupervisors = await this.getAllSupervisors();
+
     if (existingSupervisors.some((s) => s.id === sp.id)) {
       throw new Error(`Supervisor with id ${sp.id} already exists`);
     }
