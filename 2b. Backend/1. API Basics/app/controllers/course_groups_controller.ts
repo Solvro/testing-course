@@ -1,6 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
+import type {HttpContext} from '@adonisjs/core/http'
 import CourseGroup from '#models/course_group'
-import { createCourseGroupValidator } from '#validators/create_course_group'
+import {createCourseGroupValidator} from '#validators/create_course_group'
 
 export default class CourseGroupsController {
   /**
@@ -22,18 +22,15 @@ export default class CourseGroupsController {
   /**
    * Show individual record
    */
-  async show({ params, response }: HttpContext) {
-    const group = await CourseGroup.find(params.id)
-    if (!group) return response.notFound({ error: 'NOT_FOUND' })
-    return group
+  async show({ params }: HttpContext) {
+    return await CourseGroup.findOrFail(params.id)
   }
 
   /**
    * Delete record
    */
   async destroy({ params, response }: HttpContext) {
-    const group = await CourseGroup.find(params.id)
-    if (!group) return response.notFound({ error: 'NOT_FOUND' })
+    const group = await CourseGroup.findOrFail(params.id)
     await group.delete()
     return response.noContent()
   }

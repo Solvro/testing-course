@@ -22,9 +22,8 @@ export default class StudentsController {
   /**
    * Show individual record
    */
-  async show({ params, response }: HttpContext) {
-    const student = await Student.find(params.id)
-    if (!student) return response.notFound({ error: 'NOT_FOUND' })
+  async show({ params }: HttpContext) {
+    const student = await Student.findOrFail(params.id)
     return student
   }
 
@@ -32,8 +31,7 @@ export default class StudentsController {
    * Delete record
    */
   async destroy({ params, response }: HttpContext) {
-    const student = await Student.find(params.id)
-    if (!student) return response.notFound({ error: 'NOT_FOUND' })
+    const student = await Student.findOrFail(params.id)
     await student.delete()
     return response.noContent()
   }

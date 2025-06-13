@@ -1,6 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
+import type {HttpContext} from '@adonisjs/core/http'
 import Registration from '#models/registration'
-import { createRegistrationValidator } from '#validators/create_registration'
+import {createRegistrationValidator} from '#validators/create_registration'
 
 export default class RegistrationsController {
   /**
@@ -15,26 +15,23 @@ export default class RegistrationsController {
    */
   async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(createRegistrationValidator)
-    const reg = await Registration.create(payload)
-    return response.created(reg)
+    const registration = await Registration.create(payload)
+    return response.created(registration)
   }
 
   /**
    * Show individual record
    */
-  async show({ params, response }: HttpContext) {
-    const reg = await Registration.find(params.id)
-    if (!reg) return response.notFound({ error: 'NOT_FOUND' })
-    return reg
+  async show({ params }: HttpContext) {
+    return await Registration.findOrFail(params.id)
   }
 
   /**
    * Delete record
    */
   async destroy({ params, response }: HttpContext) {
-    const reg = await Registration.find(params.id)
-    if (!reg) return response.notFound({ error: 'NOT_FOUND' })
-    await reg.delete()
+    const registration = await Registration.findOrFail(params.id)
+    await registration.delete()
     return response.noContent()
   }
 }
