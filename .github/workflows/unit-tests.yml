@@ -1,10 +1,13 @@
-name: Tests
+name: Unit Tests
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - "1. Unit testing/**"
+      - ".github/workflows/unit-tests.yml"
 
 jobs:
   unit-tests:
