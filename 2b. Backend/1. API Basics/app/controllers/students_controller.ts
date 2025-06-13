@@ -1,6 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
+import type {HttpContext} from '@adonisjs/core/http'
 import Student from '#models/student'
-import { createStudentValidator } from '#validators/create_student'
+import {createStudentValidator} from '#validators/create_student'
 
 export default class StudentsController {
   /**
@@ -23,8 +23,7 @@ export default class StudentsController {
    * Show individual record
    */
   async show({ params }: HttpContext) {
-    const student = await Student.findOrFail(params.id)
-    return student
+    return await Student.findOrFail(params.id)
   }
 
   /**
