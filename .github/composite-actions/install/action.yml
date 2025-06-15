@@ -1,0 +1,17 @@
+name: "Install"
+description: "Sets up Node, and installs dependencies"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: "./1. Unit testing/.node-version"
+        cache: npm
+        cache-dependency-path: "./1. Unit testing/package-lock.json"
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+      working-directory: ./1. Unit testing

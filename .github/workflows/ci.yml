@@ -1,0 +1,40 @@
+name: "Lint & Format"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  eslint:
+    name: Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./1. Unit testing
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run ESLint check
+        run: npm run lint
+
+  prettier:
+    name: Format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./1. Unit testing
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run Prettier check
+        run: npm run format:check
