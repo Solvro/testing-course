@@ -112,8 +112,8 @@ describe("SolvroProjectsCombobox", () => {
 
   it("should close popover after selection", async () => {
     const { openCombobox, selectOption, getPopover } = setup();
-    const popover = await openCombobox();
-    expect(popover).toBeInTheDocument();
+    await openCombobox();
+    expect(getPopover()).toBeInTheDocument();
 
     await selectOption(1);
 
