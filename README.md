@@ -82,7 +82,12 @@ Zaczynamy:
 
 #### 2b. Backend
 
-TBD
+W naszej części będziemy korzystać z [docsów Adonisa](https://docs.adonisjs.com/guides/testing/introduction)
+
+W tym tygodniu skupimy się na [HTTP tests](https://docs.adonisjs.com/guides/testing/http-tests)
+
+- Każdy biorący udział na kanale <b>backend</b> dostanie przydzielony kontroler do stworzenia testów
+- Termin na PR: 24.06 do 23:59
 
 ## Osoby biorące udział w kursie
 

@@ -70,18 +70,18 @@ export default defineConfig({
   tests: {
     suites: [
       {
-        name: 'Task 01 - Registration',
-        files: ['tests/Task 01 - Course registration/**/*.test.ts'],
+        name: 'Task 01 - Course group',
+        files: ['tests/Task 01 - Course group/**/*.test.ts'],
         timeout: 30000,
       },
       {
-        name: 'Task 02 - Exam conflicts',
-        files: ['tests/Task 02 - Exam conflicts/**/*.test.ts'],
+        name: 'Task 02 - Registration',
+        files: ['tests/Task 02 - Registration/**/*.test.ts'],
         timeout: 30000,
       },
       {
-        name: 'Task 03 - Supervisor Manager',
-        files: ['tests/Task 03 - Supervisor Manager/**/*.test.ts'],
+        name: 'Task 03 - Students',
+        files: ['tests/Task 03 - Students/**/*.test.ts'],
         timeout: 30000,
       },
     ],

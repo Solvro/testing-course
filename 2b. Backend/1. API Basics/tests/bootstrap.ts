@@ -35,9 +35,9 @@ export const configureSuite: Config['configureSuite'] = (suite) => {
   if (
     [
       'browser',
-      'Task 01 - Registration',
-      'Task 02 - Exam conflicts',
-      'Task 03 - Supervisor Manager',
+      'Task 01 - Course groups',
+      'Task 02 - Registration',
+      'Task 03 - Students',
       'e2e',
     ].includes(suite.name)
   ) {
