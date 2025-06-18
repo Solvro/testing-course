@@ -22,57 +22,28 @@ import {
 interface Project {
   value: string;
   label: string;
-  likes?: number;
 }
 
 interface SolvroProjectsComboboxProps {
-  projects?: Project[];
+  projects: Project[];
   isLoading?: boolean;
   error?: string | null;
   searchTerm?: string;
   onSearchChange?: (value: string) => void;
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
-const defaultFrameworks = [
-  {
-    value: "eventownik",
-    label: "Eventownik",
-  },
-  {
-    value: "topwr",
-    label: "ToPWR",
-  },
-  {
-    value: "planer",
-    label: "Planer",
-  },
-  {
-    value: "promochator",
-    label: "PromoCHATor",
-  },
-  {
-    value: "testownik",
-    label: "Testownik",
-  },
-];
-
 export function SolvroProjectsCombobox({
-  projects = defaultFrameworks,
+  projects,
   isLoading = false,
   error = null,
   searchTerm = "",
   onSearchChange,
   value,
   onValueChange,
-}: SolvroProjectsComboboxProps & {
-  value?: string;
-  onValueChange?: (value: string) => void;
-}) {
+}: SolvroProjectsComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [internalValue, setInternalValue] = React.useState("");
-
-  const currentValue = value ?? internalValue;
-  const handleValueChange = onValueChange ?? setInternalValue;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -83,19 +54,8 @@ export function SolvroProjectsCombobox({
           aria-expanded={open}
           className="w-[300px] justify-between"
         >
-          {currentValue
-            ? (() => {
-                const selectedProject = projects.find(
-                  (project) => project.value === currentValue
-                );
-                return selectedProject
-                  ? `${selectedProject.label}${
-                      selectedProject.likes !== undefined
-                        ? ` (${selectedProject.likes} ❤️)`
-                        : ""
-                    }`
-                  : "Wyszukaj projekt...";
-              })()
+          {value
+            ? projects.find((project) => project.value === value)?.label
             : "Wyszukaj projekt..."}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -128,27 +88,18 @@ export function SolvroProjectsCombobox({
                     key={project.value}
                     value={project.value}
                     onSelect={(currentValue) => {
-                      const newValue =
-                        currentValue === currentValue ? "" : currentValue;
-                      handleValueChange(newValue);
+                      onValueChange(currentValue === value ? "" : currentValue);
                       setOpen(false);
                     }}
                   >
                     <CheckIcon
                       className={cn(
                         "mr-2 h-4 w-4",
-                        currentValue === project.value
-                          ? "opacity-100"
-                          : "opacity-0"
+                        value === project.value ? "opacity-100" : "opacity-0"
                       )}
                     />
                     <div className="flex justify-between items-center w-full">
                       <span>{project.label}</span>
-                      {project.likes !== undefined && (
-                        <span className="text-xs text-gray-500">
-                          {project.likes} ❤️
-                        </span>
-                      )}
                     </div>
                   </CommandItem>
                 ))}

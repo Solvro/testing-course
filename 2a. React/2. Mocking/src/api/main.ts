@@ -34,6 +34,18 @@ const projects = [
     value: "juwenalia-app",
     label: "Juwenalia App",
   },
+  {
+    value: "umed",
+    label: "Umed",
+  },
+  {
+    value: "unite",
+    label: "Strona Unite",
+  },
+  {
+    value: "racing-team",
+    label: "Strona Racing Teamu",
+  },
 ];
 
 const app = new Hono();
@@ -42,13 +54,19 @@ app.use(
   "*",
   cors({
     origin: "*",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// add slowdown middleware
-app.use("*", async (_c, next) => {
-  // Simulate a delay for demonstration purposes
+// add slowdown and error middleware
+app.use("*", async (c, next) => {
   await new Promise((resolve) => setTimeout(resolve, 500 * Math.random()));
+
+  if (Math.random() < 0.3) {
+    return c.json({ error: "Simulated server error" }, 500);
+  }
+
   return next();
 });
 
@@ -68,24 +86,9 @@ app.get("/", (c) => {
           },
         },
       },
-      likeProject: {
-        post: "/projects/:value/like",
-        description: "Like a project by its value",
-        parameters: {
-          value: {
-            type: "string",
-            description: "The value of the project to like",
-            required: true,
-          },
-        },
-      },
     },
   });
 });
-
-const getKey = (value: string) => {
-  return ["projects", value, "likes"];
-};
 
 app.get("/projects", async (c) => {
   const search = c.req.query("search");
@@ -99,53 +102,13 @@ app.get("/projects", async (c) => {
         project.value.toLowerCase().includes(searchLower)
     );
   }
-  const kv = await Deno.openKv();
-
-  const projectLikes = await kv.getMany(
-    filteredProjects.map((project) => getKey(project.value))
-  );
-
-  const projectsWithLikes = filteredProjects.map((project) => {
-    const likeCount = projectLikes.find(
-      (like) => like.key[1] === project.value
-    );
-
-    return {
-      ...project,
-      likes: likeCount?.value ? likeCount.value : 0,
-    };
-  });
 
   return c.json({
-    projects: projectsWithLikes,
-    total: projectsWithLikes.length,
+    projects: filteredProjects,
+    total: filteredProjects.length,
     filters: {
       search: search || null,
     },
-  });
-});
-
-app.post("/projects/:value/like", async (c) => {
-  const kv = await Deno.openKv();
-  const value = c.req.param("value");
-  const project = projects.find((p) => p.value === value);
-
-  if (!project) {
-    return c.json({ error: "Project not found" }, 404);
-  }
-
-  const key = getKey(project.value);
-  const likeCount = await kv.get<number>(key);
-
-  if (likeCount.value === null) {
-    await kv.set(key, 1);
-  } else {
-    await kv.set(key, likeCount.value + 1);
-  }
-
-  return c.json({
-    message: `Project ${project.label} liked successfully`,
-    likes: likeCount.value === null ? 1 : likeCount.value + 1,
   });
 });
 
