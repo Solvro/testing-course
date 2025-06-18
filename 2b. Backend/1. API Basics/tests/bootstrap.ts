@@ -35,7 +35,7 @@ export const configureSuite: Config['configureSuite'] = (suite) => {
   if (
     [
       'browser',
-      'Task 01 - Course groups',
+      'Task 01 - Course group',
       'Task 02 - Registration',
       'Task 03 - Students',
       'e2e',
