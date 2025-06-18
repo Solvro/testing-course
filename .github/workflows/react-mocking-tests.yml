@@ -1,4 +1,4 @@
-name: React Tests
+name: React Mocking Tests
 
 on:
   push:
@@ -6,15 +6,16 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "2a. React/**"
-      - ".github/workflows/react-tests.yml"
+      - "2a. React/2. Mocking/**"
+      - ".github/workflows/react-mocking-tests.yml"
 
 jobs:
   reacts-tests:
     name: Reacts Tests
+
     defaults:
       run:
-        working-directory: "2a. React"
+        working-directory: "2a. React/2. Mocking"
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +27,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-          cache-dependency-path: "2a. React/package-lock.json"
+          cache-dependency-path: "2a. React/2. Mocking/package-lock.json"
 
       - name: Install dependencies
         run: npm ci

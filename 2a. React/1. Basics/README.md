@@ -14,7 +14,7 @@ Po wykonaniu wszystkich części należy wykonać zadanie końcowe.
 ## Zadania końcowe
 
 1. Zsetupuj środowisko do testowania komponentów React. Skrypty w package.json są już przygotowane.
-2. Przetestuj komponent `SolvroProjectsCombobox` z `2a. React/src/components/solvro-projects-combobox.tsx`. Testy napisz wedle uznania - musi być minimalnie 1 test, który renderuje ten komponent, żeby zaliczyć zadanie. Testy napisz w pliku `2a. React/1. Basics/solvro-projects-combobox.test.ts`.
+2. Przetestuj komponent `SolvroProjectsCombobox` z `2a. React/1. Basics/src/components/solvro-projects-combobox.tsx`. Testy napisz wedle uznania - musi być minimalnie 1 test, który renderuje ten komponent, żeby zaliczyć zadanie. Testy napisz w pliku `2a. React/1. Basics/src/components/solvro-projects-combobox.test.tsx`.
 
 Instrukcja jak uruchomić aplikację jest na końcu tego pliku.
 
@@ -40,7 +40,7 @@ PR powinien zawierać jedynie obecnie oddawane zadanie!!! Uważajcie, żeby prz
 1. Przejdź do katalogu z zadaniami.
 
    ```sh
-   cd testing-course/2a.\ React/
+   cd testing-course/2a.\ React/1.\ Basics
    ```
 
 1. Zainstaluj zależności
