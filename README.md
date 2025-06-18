@@ -51,7 +51,7 @@ Zaczynamy:
 
 - Code review 2 etapu partnera, ja się zajmuję review etapu 3 - etapy dotyczą `1. Unit Testing`
 
-#### 2a. React.
+#### 2a. React
 
 Zaczynamy:
 
@@ -73,12 +73,12 @@ Co ma być zrobione:
 
 Co ma być zrobione:
 
-- Termin na oddanie pierwszego etapu z `2a. React` - zrobiona PR'ka z testami
+- Termin na oddanie czwartego etapu z `2a. React` - zrobiona PR'ka z testami
 
 Zaczynamy:
 
-- Code review pierwszego etapu partnera
-- TBD
+- Code review czwartego etapu partnera
+- Etap 5 z `2a. React` - Mockowanie API przy użyciu MSW
 
 #### 2b. Backend
 
@@ -88,6 +88,19 @@ W tym tygodniu skupimy się na [HTTP tests](https://docs.adonisjs.com/guides/tes
 
 - Każdy biorący udział na kanale <b>backend</b> dostanie przydzielony kontroler do stworzenia testów
 - Termin na PR: 24.06 do 23:59
+
+### 24.06
+
+#### 2a. React
+
+Co ma być zrobione:
+
+- Termin na oddanie piątego etapu z `2a. React` - zrobiona PR'ka z testami
+- Code review piątego etapu partnera
+
+Zaczynamy:
+
+- TBD
 
 ## Osoby biorące udział w kursie
 
