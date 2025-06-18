@@ -17,14 +17,12 @@ test.group('Course', () => {
       201,
       'Response should return a 201 status code for successful creation.'
     )
-    assert.equal(response.status(), 201, 'Response should return "Created" status text.')
-    console.log(response.body())
-    console.log(response.status())
+    assert.equal(response.status(), 201, 'Response should return a 200 status code.')
   })
   test('Course invalid/missing inputs.', async ({ assert, client }) => {
     const response = await client.post('/api/v1/course-groups')
     assert.exists(response.body().errors, 'Response should contain validation errors.')
-    assert.equal(response.status(), 422, 'Response should return a 422 status code for errors.')
+    assert.equal(response.status(), 422, 'Response should return a 422 status code.')
   })
 
   test('Get a course by ID', async ({ assert, client }) => {
