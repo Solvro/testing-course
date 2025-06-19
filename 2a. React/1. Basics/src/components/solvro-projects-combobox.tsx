@@ -1,6 +1,6 @@
 "use client";
 
-// import * as React from "react";
+import * as React from "react";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -18,7 +18,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
 
 const frameworks = [
   {
@@ -44,8 +43,8 @@ const frameworks = [
 ];
 
 export function SolvroProjectsCombobox() {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
