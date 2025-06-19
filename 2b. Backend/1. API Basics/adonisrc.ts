@@ -71,17 +71,17 @@ export default defineConfig({
     suites: [
       {
         name: 'Task 01 - Course group',
-        files: ['tests/Task 01 - Course group/**/*.test.ts'],
+        files: ['tests/Task 01 - Course group/**/*.spec.ts'],
         timeout: 30000,
       },
       {
         name: 'Task 02 - Registration',
-        files: ['tests/Task 02 - Registration/**/*.test.ts'],
+        files: ['tests/Task 02 - Registration/**/*.spec.ts'],
         timeout: 30000,
       },
       {
         name: 'Task 03 - Students',
-        files: ['tests/Task 03 - Students/**/*.test.ts'],
+        files: ['tests/Task 03 - Students/**/*.spec.ts'],
         timeout: 30000,
       },
     ],
