@@ -5,6 +5,17 @@ import { SolvroProjectsCombobox } from "./solvro-projects-combobox";
 import "@testing-library/jest-dom/vitest";
 
 describe("SolvroProjectsCombobox", () => {
+
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+
+  global.ResizeObserver = ResizeObserver;
+  window.HTMLElement.prototype.scrollIntoView = function () {};
+
+
   it("opens the project list when button is clicked", async () => {
     render(<SolvroProjectsCombobox />);
     const button = screen.getByRole("combobox");
