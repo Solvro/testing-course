@@ -14,11 +14,27 @@ describe("SolvroProjectsCombobox", () => {
 it("shows options when clicked", async () => {
   render(<SolvroProjectsCombobox />);
   const user = userEvent.setup();
+
   const button = screen.getByRole("combobox");
   await user.click(button);
+
   expect(screen.queryByText(/nie znaleziono/i)).not.toBeInTheDocument();
 
   const options = await screen.findAllByRole("option");
   expect(options.length).toBeGreaterThan(0);
 });
+
+it("displays the project after choosing an option", async () => {
+  render(<SolvroProjectsCombobox />);
+  const user = userEvent.setup();
+  const combobox = screen.getByRole("combobox");
+  await user.click(combobox);
+  const options = await screen.findAllByRole("option");
+  expect(options.length).toBeGreaterThan(0);
+  const firstOption = options[0];
+  const firstOptionLabel = firstOption.textContent || "";
+  await user.click(firstOption);
+  expect(combobox).toHaveTextContent(firstOptionLabel);
+});
+
 });
