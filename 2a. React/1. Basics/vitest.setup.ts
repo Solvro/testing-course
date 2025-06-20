@@ -1,16 +1,10 @@
-// vitest.setup.ts
-import { expect, vi } from "vitest";
-import * as matchers from "@testing-library/jest-dom/matchers";
+import { vi } from "vitest";
+import '@testing-library/jest-dom/vitest';
 
-expect.extend(matchers);
-
-class ResizeObserver {
+global.ResizeObserver = class {
   observe() {}
   unobserve() {}
   disconnect() {}
-}
-vi.stubGlobal("ResizeObserver", ResizeObserver);
+};
 
-vi.stubGlobal("HTMLElement", class {
-  scrollIntoView = vi.fn();
-});
+Element.prototype.scrollIntoView = vi.fn();
