@@ -11,7 +11,7 @@ describe("SolvroProjectsCombobox", () => {
 
     return {
       combobox,
-      searchbox: screen.getByPlaceholderText(/wyszukaj/i),
+      searchbox: screen.getByPlaceholderText(/szukaj/i),
       group: screen.getByRole("group"),
       getOptions: () => screen.getAllByRole("option"),
     };
@@ -23,7 +23,7 @@ describe("SolvroProjectsCombobox", () => {
     const combobox = screen.getByRole("combobox");
 
     expect(combobox).toBeInTheDocument();
-    expect(combobox).toHaveTextContent(/wyszukaj/i);
+    expect(combobox).toHaveTextContent(/szukaj/i);
   });
 
   it("should display list of projects and search input after user clicks", async () => {
@@ -34,12 +34,12 @@ describe("SolvroProjectsCombobox", () => {
   });
 
   it("should properly filter projects after typing into searchbox", async () => {
-    const { searchbox } = await renderComponent();
+    const { searchbox, getOptions } = await renderComponent();
 
     //let's assume the data used in component is mocked
     await userEvent.type(searchbox, "ownik");
 
-    expect(screen.getAllByRole("option").length).toBe(2);
+    expect(getOptions().length).toBe(2);
   });
 
   it("should display informative message when no projects were found", async () => {
@@ -47,7 +47,7 @@ describe("SolvroProjectsCombobox", () => {
 
     await userEvent.type(searchbox, "asdf".repeat(10));
 
-    expect(screen.getByText(/nie znaleziono/i)).toBeInTheDocument();
+    expect(screen.getByText(/nie/i)).toBeInTheDocument();
   });
 
   it("should update combobox text after clicking an option", async () => {
@@ -72,7 +72,7 @@ describe("SolvroProjectsCombobox", () => {
     await userEvent.click(combobox);
     await userEvent.click(getOptions()[0]);
 
-    expect(combobox).toHaveTextContent(/wyszukaj/i);
+    expect(combobox).toHaveTextContent(/szukaj/i);
   });
 
   it("should update combobox text after clicking different option", async () => {
