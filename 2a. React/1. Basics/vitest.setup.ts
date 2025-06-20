@@ -10,3 +10,7 @@ class ResizeObserver {
   disconnect() {}
 }
 vi.stubGlobal("ResizeObserver", ResizeObserver);
+
+vi.stubGlobal("HTMLElement", class {
+  scrollIntoView = vi.fn();
+});
