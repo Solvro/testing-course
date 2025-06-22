@@ -1,3 +1,4 @@
+import { simulateDelay, simulateError } from "@/lib/utils";
 import {
   render,
   screen,
@@ -8,10 +9,8 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { Providers } from "./providers";
 import { SolvroProjectsComboboxApi } from "./solvro-projects-combobox-api";
-import { http, HttpResponse, delay } from "msw";
-import { server } from "@/mocks/server";
 
-const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
+export const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 
 export const allProjects = [
   { value: "1", label: "project 1" },
@@ -51,12 +50,7 @@ describe("SolvroProjectsComboboxApi", async () => {
   });
 
   it("should show a loading state when fetching projects", async () => {
-    server.use(
-      http.get(`${API_BASE_URL}/projects`, async () => {
-        await delay();
-        return HttpResponse.json([]);
-      })
-    );
+    simulateDelay(`${API_BASE_URL}/projects`);
     const { openCombobox, searchFor } = setup();
 
     await openCombobox();
@@ -66,12 +60,7 @@ describe("SolvroProjectsComboboxApi", async () => {
   });
 
   it("should remove loading state when projects are fetched", async () => {
-    server.use(
-      http.get(`${API_BASE_URL}/projects`, async () => {
-        await delay();
-        return HttpResponse.json([]);
-      })
-    );
+    simulateDelay(`${API_BASE_URL}/projects`);
     const { openCombobox, searchFor } = setup();
 
     await openCombobox();
@@ -83,9 +72,7 @@ describe("SolvroProjectsComboboxApi", async () => {
   });
 
   it("should display error if fetch fails", async () => {
-    server.use(
-      http.get(`${API_BASE_URL}/projects`, () => HttpResponse.error())
-    );
+    simulateError(`${API_BASE_URL}/projects`);
     const { openCombobox, searchFor } = setup();
 
     await openCombobox();
