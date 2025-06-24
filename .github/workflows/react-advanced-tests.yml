@@ -1,0 +1,36 @@
+name: React Advanced Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - "2a. React/3. Advanced tests/**"
+      - ".github/workflows/react-advanced-tests.yml"
+
+jobs:
+  reacts-tests:
+    name: React Advanced Tests
+
+    defaults:
+      run:
+        working-directory: "2a. React/3. Advanced tests"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: "2a. React/3. Advanced tests/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run coverage -- --passWithNoTests
