@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AuthContext } from "@/contexts/auth-context-definition";
 
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<{ email: string } | null>(null);
 

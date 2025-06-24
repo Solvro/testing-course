@@ -153,7 +153,7 @@ export const PlansPage = () => {
                       </div>
                       <span
                         className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${getTypeColor(
-                          cls.type
+                          cls.type,
                         )}`}
                       >
                         {cls.type}
