@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SolvroProjectsCombobox } from "./solvro-projects-combobox";
+import { API_BASE_URL } from "@/lib/config";
 
 interface Project {
   value: string;
@@ -16,8 +17,6 @@ interface ProjectsResponse {
     search: string | null;
   };
 }
-
-const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 
 const fetchProjects = async (search?: string): Promise<ProjectsResponse> => {
   const url = new URL(`${API_BASE_URL}/projects`);
