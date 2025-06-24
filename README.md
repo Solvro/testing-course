@@ -96,11 +96,24 @@ W tym tygodniu skupimy się na [HTTP tests](https://docs.adonisjs.com/guides/tes
 Co ma być zrobione:
 
 - Termin na oddanie piątego etapu z `2a. React` - zrobiona PR'ka z testami
+- Code review czwartego etapu partnera
+
+Zaczynamy:
+
+- Etap 6 z `2a. React` - Zaawansowane testy Reacta
+
+### 01.07
+
+#### 2a. React
+
+Co ma być zrobione:
+
+- Termin na oddanie szóstego etapu z `2a. React` - zrobiona PR'ka z testami
 - Code review piątego etapu partnera
 
 Zaczynamy:
 
-- TBD
+- Etap 1 z `3. E2E Testing` - Wprowadzenie do testów end-to-end
 
 ## Osoby biorące udział w kursie
 
