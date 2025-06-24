@@ -12,6 +12,12 @@ export default defineConfig({
     },
   },
   test: {
+    coverage: {
+      reportOnFailure: true,
+      reporter: process.env.GITHUB_ACTIONS
+        ? ["text", "json-summary", "json", "github-actions"]
+        : ["text", "json-summary", "json"],
+    },
     environment: "jsdom",
     setupFiles: "./src/tests/setup.ts",
     globals: true,
