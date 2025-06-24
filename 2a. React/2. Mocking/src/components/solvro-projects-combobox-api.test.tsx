@@ -74,4 +74,27 @@ describe("SolvroProjectsComboboxApi", () => {
       expect(option).toHaveTextContent(MOCK_PROJECTS[index].label);
     });
   });
+
+  it("should show error message on no matches", async () => {
+    const user = await clickCombobox();
+    const input = screen.getByPlaceholderText("Wyszukaj projekt...");
+    expect(input).toBeInTheDocument();
+    await user.type(input, "XXXX_X_XX_X_X--not-in-document");
+    const message = screen.getByRole("presentation");
+    expect(message).toBeInTheDocument();
+    expect(message).toHaveTextContent("Nie znaleziono projektu.");
+  });
+
+  it("should close dialog when project clicked", async () => {
+    const user = await clickCombobox();
+    const list = screen.getByRole("group");
+    const firstOption = list.firstElementChild;
+    expect(firstOption).toHaveTextContent(MOCK_PROJECTS[0].label);
+    await user.click(firstOption!);
+    expect(screen.queryByRole("group")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("combobox"));
+    expect(screen.queryByRole("group")).toBeInTheDocument();
+    await user.click(screen.getByRole("group").firstElementChild!);
+    expect(screen.queryByRole("group")).not.toBeInTheDocument();
+  });
 });

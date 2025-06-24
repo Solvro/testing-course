@@ -29,7 +29,14 @@ const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 export const API_PROJECTS_URL = `${API_BASE_URL}/projects`;
 
 export const handlers = [
-  http.get(API_PROJECTS_URL, () =>
-    HttpResponse.json({ projects: MOCK_PROJECTS }),
-  ),
+  http.get(API_PROJECTS_URL, ({ request }) => {
+    const url = new URL(request.url);
+    const search = url.searchParams.get("search")?.toLowerCase();
+    const projects = search
+      ? MOCK_PROJECTS.filter((project) =>
+          project.label.toLowerCase().includes(search),
+        )
+      : MOCK_PROJECTS;
+    return HttpResponse.json({ projects });
+  }),
 ];
