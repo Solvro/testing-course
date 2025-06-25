@@ -24,16 +24,6 @@ function renderForm() {
   };
 }
 
-// vi.mock("input-otp", async (importOriginal) => {
-//   const original = await importOriginal<typeof import("input-otp")>();
-//   return {
-//     ...original,
-//     OTPInput: vi.fn((props) => (
-//       <original.OTPInput {...props}></original.OTPInput>
-//     )),
-//   };
-// });
-
 describe("OTP verification form", () => {
   afterEach(() => {
     cleanup();
