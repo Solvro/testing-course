@@ -3,10 +3,40 @@ import "@testing-library/jest-dom/vitest";
 import ResizeObserver from "resize-observer-polyfill";
 
 import { server } from "./mocks/server";
+import {
+  navigate,
+  Navigator,
+  toastError,
+  toastSuccess,
+} from "./mocks/functions";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
+
+vi.mock("@/hooks/use-auth", async (importOriginal) => {
+  const { useAuth } = await importOriginal<typeof import("@/hooks/use-auth")>();
+  return { useAuth: vi.fn(useAuth) };
+});
+
+vi.mock("react-router", async (importOriginal) => {
+  const module = await importOriginal<typeof import("react-router")>();
+  return {
+    ...module,
+    Navigate: navigate,
+    useNavigate: () => Navigator,
+  };
+});
+
+vi.mock("sonner", async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import("sonner")>()),
+    toast: {
+      error: toastError,
+      success: toastSuccess,
+    },
+  };
+});
 
 global.ResizeObserver = ResizeObserver;
 
