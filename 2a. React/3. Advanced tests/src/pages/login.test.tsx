@@ -1,14 +1,9 @@
 import { Providers } from "@/components/providers";
 import { LoginPage } from "@/pages/login";
 import { mockIsAuthenticated } from "@/tests/helpers";
-import { navigate } from "@/tests/mocks/functions";
+import { NavigateComponent } from "@/tests/mocks/functions";
 import { render } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-
-// vi.mock("input-otp", async (importOriginal) => {
-//   const original = await importOriginal<typeof import("input-otp")>();
-//   return { ...original, OTPInput: vi.fn((props) => original.OTPInput(props)) };
-// });
 
 function renderForm() {
   const screen = render(<LoginPage />, {
@@ -31,8 +26,8 @@ describe("Login Page", () => {
 
   it("should redirect authenticated users", async () => {
     mockIsAuthenticated(true);
-    expect(navigate).not.toHaveBeenCalled();
+    expect(NavigateComponent).not.toHaveBeenCalled();
     renderForm();
-    expect(navigate).toHaveBeenCalled();
+    expect(NavigateComponent).toHaveBeenCalled();
   });
 });

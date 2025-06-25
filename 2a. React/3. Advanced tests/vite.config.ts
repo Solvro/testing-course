@@ -15,6 +15,12 @@ export default defineConfig({
     coverage: {
       reportOnFailure: true,
       reporter: ["text", "json-summary", "json"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/api/api-z-planer-mock-api-dla-ciekawskich.ts",
+        "src/components/ui",
+        "**/*.d.ts",
+      ],
     },
     environment: "jsdom",
     setupFiles: "./src/tests/setup.ts",

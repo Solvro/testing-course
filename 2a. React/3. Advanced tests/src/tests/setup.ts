@@ -5,7 +5,7 @@ import ResizeObserver from "resize-observer-polyfill";
 import { server } from "./mocks/server";
 import {
   navigate,
-  Navigator,
+  NavigateComponent,
   toastError,
   toastSuccess,
 } from "./mocks/functions";
@@ -23,8 +23,8 @@ vi.mock("react-router", async (importOriginal) => {
   const module = await importOriginal<typeof import("react-router")>();
   return {
     ...module,
-    Navigate: navigate,
-    useNavigate: () => Navigator,
+    Navigate: NavigateComponent,
+    useNavigate: () => navigate,
   };
 });
 
@@ -41,6 +41,8 @@ vi.mock("sonner", async (importOriginal) => {
 global.ResizeObserver = ResizeObserver;
 
 Element.prototype.scrollIntoView = vi.fn();
+Document.prototype.elementFromPoint = vi.fn();
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({

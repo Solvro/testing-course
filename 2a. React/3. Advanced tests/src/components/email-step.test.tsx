@@ -7,10 +7,9 @@ import { server } from "@/tests/mocks/server";
 import { http, HttpResponse } from "msw";
 import { BASE_URL } from "@/api/base-url";
 import { toastError } from "@/tests/mocks/functions";
+import { MOCK_EMAIL } from "@/tests/mocks/constants";
 
 const mockedSetStep = vi.fn();
-
-const VALID_EMAIL = "test@student.pwr.edu.pl";
 
 function renderForm() {
   const screen = render(
@@ -34,7 +33,7 @@ describe("Login Page", () => {
   it("should reject invalid emails", async () => {
     const user = userEvent.setup();
     const form = renderForm();
-    await user.type(form.emailInput, "invalid-email");
+    await user.type(form.emailInput, MOCK_EMAIL.INVALID);
     await user.click(form.submitButton);
 
     expect(
@@ -47,7 +46,7 @@ describe("Login Page", () => {
     const form = renderForm();
 
     await user.clear(form.emailInput);
-    await user.type(form.emailInput, "external@email.com");
+    await user.type(form.emailInput, MOCK_EMAIL.EXTERNAL);
     await user.click(form.submitButton);
 
     expect(
@@ -62,7 +61,7 @@ describe("Login Page", () => {
     const user = userEvent.setup();
     const form = renderForm();
 
-    await user.type(form.emailInput, VALID_EMAIL);
+    await user.type(form.emailInput, MOCK_EMAIL.VALID);
     await user.click(form.submitButton);
 
     expect(mockedSetStep).toHaveBeenCalledExactlyOnceWith("otp");
@@ -77,7 +76,7 @@ describe("Login Page", () => {
       ),
     );
 
-    await user.type(form.emailInput, VALID_EMAIL);
+    await user.type(form.emailInput, MOCK_EMAIL.VALID);
     await user.click(form.submitButton);
 
     expect(mockedSetStep).not.toHaveBeenCalled();
