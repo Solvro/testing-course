@@ -2,9 +2,9 @@ import { routes } from "@/routes";
 import { render, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, it } from "vitest";
-import { mockIsAuthenticated } from "./helpers";
+import { mockIsAuthenticated } from "./tests/helpers";
 
-function renderAndExpect(route: string, heading: string) {
+function renderAndExpectHeading(route: string, heading: string) {
   const router = createMemoryRouter(routes, { initialEntries: [route] });
   render(<RouterProvider router={router} />);
   expect(screen.getByText(heading)).toBeInTheDocument();
@@ -12,11 +12,11 @@ function renderAndExpect(route: string, heading: string) {
 
 describe("Router", () => {
   it("should render the index page", () => {
-    renderAndExpect("/", "Zaloguj się do planera");
+    renderAndExpectHeading("/", "Zaloguj się do planera");
   });
 
   it("should render the plans page", () => {
     mockIsAuthenticated(true);
-    renderAndExpect("/plans", "Planer - kocham planer");
+    renderAndExpectHeading("/plans", "Planer - kocham planer");
   });
 });
