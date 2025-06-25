@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "lucide-react": "^0.516.0",
+    "msw": "^2.10.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwind-merge": "^3.3.1",
@@ -50,5 +51,10 @@
     "typescript-eslint": "^8.34.1",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
