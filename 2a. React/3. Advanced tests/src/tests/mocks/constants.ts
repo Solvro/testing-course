@@ -4,4 +4,9 @@ export const MOCK_EMAIL = {
   EXTERNAL: "external@email.com",
 };
 
-export const MOCK_OTP = "000000";
+export const MOCK_OTP = {
+  VALID: "000000",
+  INVALID: "999999",
+};
+
+export const INVALID_OTP_MESSAGE = "Invalid OTP (test mode)";

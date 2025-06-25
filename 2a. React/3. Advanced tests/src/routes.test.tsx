@@ -12,6 +12,7 @@ function renderAndExpectHeading(route: string, heading: string) {
 
 describe("Router", () => {
   it("should render the index page", () => {
+    mockIsAuthenticated(false);
     renderAndExpectHeading("/", "Zaloguj się do planera");
   });
 
