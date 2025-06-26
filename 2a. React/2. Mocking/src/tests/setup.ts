@@ -1,8 +1,8 @@
-import { afterAll, beforeAll, vi } from "vitest";
+import { afterAll, beforeAll, afterEach, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 import ResizeObserver from "resize-observer-polyfill";
 import { server } from "./server";
-import { afterEach } from "node:test";
+import {} from "node:test";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
