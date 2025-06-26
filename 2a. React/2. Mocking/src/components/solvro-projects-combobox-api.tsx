@@ -17,7 +17,7 @@ interface ProjectsResponse {
   };
 }
 
-const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
+export const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 
 const fetchProjects = async (search?: string): Promise<ProjectsResponse> => {
   const url = new URL(`${API_BASE_URL}/projects`);
