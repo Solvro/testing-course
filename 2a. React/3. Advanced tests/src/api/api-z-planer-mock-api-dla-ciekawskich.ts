@@ -28,7 +28,7 @@ app.use(
     origin: "*", // Pozwala na żądania z dowolnego źródła dla celów deweloperskich
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
-  }),
+  })
 );
 
 // Symulacja opóźnień i błędów
@@ -91,7 +91,7 @@ app.post("/user/otp/get", async (c) => {
   // WAŻNE: W prawdziwej aplikacji nigdy nie zwracałbyś OTP w odpowiedzi.
   // Jest to tutaj tylko dla celów testowych i deweloperskich.
   console.log(
-    `Generated OTP for ${email}: ${otp}. Provide this to the client for testing.`,
+    `Generated OTP for ${email}: ${otp}. Provide this to the client for testing.`
   );
 
   return c.json({ success: true, message: "OTP sent successfully", otp: otp });
@@ -108,7 +108,7 @@ app.post("/user/otp/verify", async (c) => {
   if (!email || typeof email !== "string" || !otp || typeof otp !== "string") {
     return c.json(
       { success: false, message: "Email and OTP are required" },
-      400,
+      400
     );
   }
 
@@ -125,7 +125,7 @@ app.post("/user/otp/verify", async (c) => {
         success: false,
         message: "No OTP requested for this email or OTP expired",
       },
-      400,
+      400
     );
   }
 
@@ -136,7 +136,7 @@ app.post("/user/otp/verify", async (c) => {
     await kv.delete(["otps", email]); // Usuwamy wygasły OTP
     return c.json(
       { success: false, message: "OTP expired, please request a new one" },
-      400,
+      400
     );
   }
 
@@ -149,7 +149,7 @@ app.post("/user/otp/verify", async (c) => {
     // (w ramach czasu ważności).
     return c.json(
       { success: false, message: `Invalid OTP - please use ${storedOtp}` },
-      400,
+      400
     );
   }
 });
@@ -157,7 +157,7 @@ app.post("/user/otp/verify", async (c) => {
 // --- Uruchomienie serwera ---
 const port = 8000;
 console.log(
-  `🚀 Solvro Mock OTP API server running on http://localhost:${port}`,
+  `🚀 Solvro Mock OTP API server running on http://localhost:${port}`
 );
 console.log(`To run this server: deno run --allow-net --unstable-kv main.ts`);
 
