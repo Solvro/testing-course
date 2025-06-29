@@ -1,6 +1,6 @@
 import { Providers } from "@/components/providers";
 import { LoginPage } from "@/pages/login";
-import { mockIsAuthenticated } from "@/tests/helpers";
+import { getLoginFormInputs, mockIsAuthenticated } from "@/tests/helpers";
 import { MOCK_EMAIL } from "@/tests/mocks/constants";
 import { NavigateComponent } from "@/tests/mocks/functions";
 import { cleanup, render } from "@testing-library/react";
@@ -11,10 +11,7 @@ function renderForm() {
   const screen = render(<LoginPage />, { wrapper: Providers });
   return {
     screen,
-    getInputs: () => ({
-      emailInput: screen.getByLabelText("Adres e-mail"),
-      submitButton: screen.getByRole("button"),
-    }),
+    getInputs: () => getLoginFormInputs(screen),
   };
 }
 
@@ -34,7 +31,10 @@ describe("Login Page", () => {
     mockIsAuthenticated(true);
     expect(NavigateComponent).not.toHaveBeenCalled();
     renderForm();
-    expect(NavigateComponent).toHaveBeenCalled();
+    expect(NavigateComponent).toHaveBeenCalledExactlyOnceWith(
+      { to: "/plans", replace: true },
+      undefined,
+    );
   });
 
   it("should switch to otp step on valid email", async () => {

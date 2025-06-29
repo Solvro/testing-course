@@ -8,21 +8,22 @@ import { http, HttpResponse } from "msw";
 import { BASE_URL } from "@/api/base-url";
 import { toastError } from "@/tests/mocks/functions";
 import { MOCK_EMAIL } from "@/tests/mocks/constants";
+import { getLoginFormInputs } from "@/tests/helpers";
 
 const mockedSetStep = vi.fn();
 
-function renderForm() {
+async function enterEmailAndSubmit(email: string) {
   const screen = render(
     <EmailStep setEmail={vi.fn()} setStep={mockedSetStep} />,
-    {
-      wrapper: Providers,
-    },
+    { wrapper: Providers },
   );
-  return {
-    screen,
-    emailInput: screen.getByLabelText("Adres e-mail"),
-    submitButton: screen.getByRole("button"),
-  };
+  const user = userEvent.setup();
+  const { emailInput, submitButton } = getLoginFormInputs(screen);
+
+  await user.clear(emailInput);
+  await user.type(emailInput, email);
+  await user.click(submitButton);
+  return screen;
 }
 
 describe("Login Page", () => {
@@ -31,53 +32,35 @@ describe("Login Page", () => {
   });
 
   it("should reject invalid emails", async () => {
-    const user = userEvent.setup();
-    const form = renderForm();
-    await user.type(form.emailInput, MOCK_EMAIL.INVALID);
-    await user.click(form.submitButton);
-
+    const screen = await enterEmailAndSubmit(MOCK_EMAIL.INVALID);
     expect(
-      form.screen.queryByText("Podaj poprawny adres email"),
+      screen.queryByText("Podaj poprawny adres email"),
     ).toBeInTheDocument();
   });
 
   it("should reject external emails", async () => {
-    const user = userEvent.setup();
-    const form = renderForm();
-
-    await user.clear(form.emailInput);
-    await user.type(form.emailInput, MOCK_EMAIL.EXTERNAL);
-    await user.click(form.submitButton);
+    const screen = await enterEmailAndSubmit(MOCK_EMAIL.EXTERNAL);
 
     expect(
-      form.screen.queryByText(
-        "Adres email musi kończyć się na @student.pwr.edu.pl",
-      ),
+      screen.queryByText("Adres email musi kończyć się na @student.pwr.edu.pl"),
     ).toBeInTheDocument();
     expect(mockedSetStep).not.toHaveBeenCalled();
   });
 
   it("should accept valid internal emails", async () => {
-    const user = userEvent.setup();
-    const form = renderForm();
-
-    await user.type(form.emailInput, MOCK_EMAIL.VALID);
-    await user.click(form.submitButton);
+    await enterEmailAndSubmit(MOCK_EMAIL.VALID);
 
     expect(mockedSetStep).toHaveBeenCalledExactlyOnceWith("otp");
   });
 
   it("should display error on server error", async () => {
-    const user = userEvent.setup();
-    const form = renderForm();
     server.use(
       http.post(BASE_URL + "/user/otp/get", () =>
         HttpResponse.json(null, { status: 500 }),
       ),
     );
 
-    await user.type(form.emailInput, MOCK_EMAIL.VALID);
-    await user.click(form.submitButton);
+    await enterEmailAndSubmit(MOCK_EMAIL.VALID);
 
     expect(mockedSetStep).not.toHaveBeenCalled();
     expect(toastError).toHaveBeenCalledWith(

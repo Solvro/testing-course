@@ -24,6 +24,19 @@ function renderForm() {
   };
 }
 
+async function testInvalidInput(expectedErrorMessage: string) {
+  const user = userEvent.setup();
+  const form = renderForm();
+
+  await user.type(form.inputOtp, MOCK_OTP.INVALID);
+  const submit = form.getSubmitButton();
+  await user.click(submit);
+
+  await waitFor(() => {
+    expect(toastError).toHaveBeenCalledWith(expectedErrorMessage);
+  });
+}
+
 describe("OTP verification form", () => {
   afterEach(() => {
     cleanup();
@@ -52,16 +65,7 @@ describe("OTP verification form", () => {
   });
 
   it("should reject incorrect OTP input", async () => {
-    const user = userEvent.setup();
-    const form = renderForm();
-
-    await user.type(form.inputOtp, MOCK_OTP.INVALID);
-    const submit = form.getSubmitButton();
-    await user.click(submit);
-
-    await waitFor(() => {
-      expect(toastError).toHaveBeenCalledWith(INVALID_OTP_MESSAGE);
-    });
+    await testInvalidInput(INVALID_OTP_MESSAGE);
   });
 
   it("should reject incorrect OTP input with fallback message", async () => {
@@ -70,15 +74,6 @@ describe("OTP verification form", () => {
         HttpResponse.json({}, { status: 400 }),
       ),
     );
-    const user = userEvent.setup();
-    const form = renderForm();
-
-    await user.type(form.inputOtp, MOCK_OTP.INVALID);
-    const submit = form.getSubmitButton();
-    await user.click(submit);
-
-    await waitFor(() => {
-      expect(toastError).toHaveBeenCalledWith("Błąd podczas logowania");
-    });
+    await testInvalidInput("Błąd podczas logowania");
   });
 });
