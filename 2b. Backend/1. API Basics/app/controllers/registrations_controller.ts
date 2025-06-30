@@ -1,6 +1,6 @@
-import type {HttpContext} from '@adonisjs/core/http'
+import type { HttpContext } from '@adonisjs/core/http'
 import Registration from '#models/registration'
-import {createRegistrationValidator} from '#validators/create_registration'
+import { createRegistrationValidator } from '#validators/create_registration'
 
 export default class RegistrationsController {
   /**
