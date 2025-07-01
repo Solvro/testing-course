@@ -12,7 +12,7 @@ import {
 import { mockPlans } from "@/lib/mock-plans";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const getTypeColor = (type: string) => {
   switch (type) {
@@ -153,7 +153,7 @@ export const PlansPage = () => {
                       </div>
                       <span
                         className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${getTypeColor(
-                          cls.type,
+                          cls.type
                         )}`}
                       >
                         {cls.type}

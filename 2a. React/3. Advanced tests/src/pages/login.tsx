@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router";
+import { Navigate } from "react-router-dom";
 
 import SolvroLogoColor from "@/assets/logo_solvro_color.png";
 import SolvroLogoMono from "@/assets/logo_solvro_mono.png";
