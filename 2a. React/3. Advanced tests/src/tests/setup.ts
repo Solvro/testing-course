@@ -11,6 +11,13 @@ afterAll(() => server.close());
 global.ResizeObserver = ResizeObserver;
 
 Element.prototype.scrollIntoView = vi.fn();
+
+// Mock document.elementFromPoint for InputOTP component
+Object.defineProperty(document, "elementFromPoint", {
+  writable: true,
+  value: vi.fn(() => null),
+});
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
