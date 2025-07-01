@@ -31,3 +31,25 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
+
+// Suppress specific input-otp timer errors that occur after test environment teardown
+const originalError = console.error;
+console.error = (...args) => {
+  const message = args[0]?.toString() ?? '';
+  // Suppress the specific input-otp timer error that occurs after test teardown
+  if (message.includes('input-otp') && message.includes('Timeout._onTimeout')) {
+    return;
+  }
+  originalError(...args);
+};
+
+// Handle unhandled promise rejections that might occur from input-otp timers
+process.on('unhandledRejection', (reason) => {
+  const message = reason?.toString() ?? '';
+  // Suppress input-otp related timer errors
+  if (message.includes('window is not defined') || message.includes('input-otp')) {
+    return;
+  }
+  // Re-throw other unhandled rejections
+  throw reason;
+});

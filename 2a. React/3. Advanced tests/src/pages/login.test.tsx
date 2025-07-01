@@ -1,7 +1,7 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 
 import { LoginPage } from "@/pages/login";
 import { AuthProvider } from "@/contexts/auth-context";
@@ -53,6 +53,12 @@ describe("LoginPage", () => {
 		vi.clearAllMocks();
 		// Clear console.info mock
 		vi.spyOn(console, "info").mockImplementation(() => {});
+	});
+
+	afterEach(() => {
+		cleanup();
+		// Clear any pending timers
+		vi.clearAllTimers();
 	});
 
 	it("renders login form with email step initially", () => {
@@ -195,13 +201,12 @@ describe("LoginPage", () => {
 			expect(screen.getByText("Hasło jednorazowe")).toBeInTheDocument();
 		});
 
-		// Fill in OTP and submit
-		const loginButton = screen.getByRole("button", { name: /zaloguj się/i });
-
 		// Find the OTP input field
 		const otpField = screen.getByRole("textbox");
 		await user.type(otpField, "123456");
 
+		// Fill in OTP and submit
+		const loginButton = screen.getByRole("button", { name: /zaloguj się/i });
 		await user.click(loginButton);
 
 		await waitFor(() => {
