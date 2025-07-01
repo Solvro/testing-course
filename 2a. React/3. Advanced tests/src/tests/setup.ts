@@ -11,6 +11,9 @@ afterAll(() => server.close());
 global.ResizeObserver = ResizeObserver;
 
 Element.prototype.scrollIntoView = vi.fn();
+
+global.document.elementFromPoint = vi.fn().mockReturnValue(null);
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
