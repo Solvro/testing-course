@@ -22,7 +22,7 @@ export const handlers = [
 
     return HttpResponse.json(
       { success: false, message: "Invalid OTP" },
-      { status: 401 },
+      { status: 400 },
     );
   }),
 ] satisfies RequestHandler[];

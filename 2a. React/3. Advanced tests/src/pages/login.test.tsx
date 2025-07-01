@@ -210,6 +210,37 @@ describe("LoginPage", () => {
 		});
 	});
 
+	it("shows error message for invalid OTP", async () => {
+		const { toast } = await import("sonner");
+
+		render(
+			<TestWrapper>
+				<LoginPage />
+			</TestWrapper>
+		);
+
+		// Complete email step
+		const emailInput = screen.getByLabelText("Adres e-mail");
+		await user.type(emailInput, "test@student.pwr.edu.pl");
+		await user.click(screen.getByRole("button", { name: /wyślij kod/i }));
+
+		await waitFor(() => {
+			expect(screen.getByText("Hasło jednorazowe")).toBeInTheDocument();
+		});
+
+		// Fill in invalid OTP and submit
+		const loginButton = screen.getByRole("button", { name: /zaloguj się/i });
+		const otpField = screen.getByRole("textbox");
+
+		// Type invalid OTP (anything other than 123456)
+		await user.type(otpField, "999999");
+		await user.click(loginButton);
+
+		await waitFor(() => {
+			expect(toast.error).toHaveBeenCalledWith("Invalid OTP");
+		});
+	});
+
 	it("displays both light and dark logos", () => {
 		render(
 			<TestWrapper>
