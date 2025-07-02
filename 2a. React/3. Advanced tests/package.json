@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "coverage": "vitest run --coverage",
     "test": "vitest",
-    "test:ui": "vitest --ui",
+    "test:ui": "vitest --ui --coverage.enabled=true",
     "preview": "vite preview"
   },
   "dependencies": {
