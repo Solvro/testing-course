@@ -2,13 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { http, HttpResponse } from "msw";
 import { LoginPage } from "@/pages/login";
 import { PlansPage } from "@/pages/plans";
 import { Layout } from "@/pages/layout";
 import { Providers } from "@/components/providers";
 import { server } from "@/tests/mocks/server";
-import { BASE_URL } from "@/api/base-url";
+import { handlers } from "@/tests/mocks/handlers";
 
 const consoleInfoSpy = vi.spyOn(console, "info").mockImplementation(() => {});
 
@@ -83,22 +82,7 @@ describe("LoginPage", () => {
     });
 
     it("should render planer page after correct email and OTP", async () => {
-      server.use(
-        http.post(`${BASE_URL}/user/otp/get`, () => {
-          return HttpResponse.json({
-            success: true,
-            message: "OTP sent successfully",
-            otp: "04072025",
-          });
-        }),
-        http.post(`${BASE_URL}/user/otp/verify`, () => {
-          return HttpResponse.json({
-            success: true,
-            message: "Logged in successfully",
-            email: "282267@student.pwr.edu.pl",
-          });
-        })
-      );
+      server.use(...handlers);
 
       const router = createTestRouter(["/login"]);
       const screen = render(<RouterProvider router={router} />, {
