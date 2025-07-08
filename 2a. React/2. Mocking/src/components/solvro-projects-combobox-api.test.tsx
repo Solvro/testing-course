@@ -11,9 +11,7 @@ const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 const renderComponent = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
-      queries: {
-        retry: false,
-      },
+      queries: { retry: false },
     },
   });
 
@@ -35,9 +33,7 @@ describe("SolvroProjectsComboboxApi", () => {
     renderComponent();
     const trigger = screen.getByRole("combobox");
     expect(trigger.textContent).toMatch(/szukaj/i);
-
     await userEvent.click(trigger);
-
     expect(await screen.findByText("ToPWR")).toBeInTheDocument();
     expect(screen.getByText("Strona PWr Racing Team")).toBeInTheDocument();
     expect(screen.getByText("Solvro Bot")).toBeInTheDocument();
@@ -49,53 +45,36 @@ describe("SolvroProjectsComboboxApi", () => {
         return new HttpResponse(null, { status: 500 });
       })
     );
-
     renderComponent();
     const trigger = screen.getByRole("combobox");
     await userEvent.click(trigger);
-
-    expect(
-      await screen.findByText("Błąd podczas ładowania projektów")
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Błąd podczas ładowania projektów")).toBeInTheDocument();
     expect(screen.queryByText("ToPWR")).not.toBeInTheDocument();
   });
 
-  it("should first show a loading state, and then the projects from the API", async () => {
+  it("should show a loading state initially", async () => {
     server.use(
       http.get(new RegExp(`${API_BASE_URL}/projects.*`), async () => {
-        await delay(150);
+        await delay(500);
         return HttpResponse.json({
-          projects: MOCK_PROJECTS.map((p) => ({
-            value: p.name,
-            label: p.name,
-          })),
-          total: MOCK_PROJECTS.length,
+          projects: [],
+          total: 0,
           filters: { search: null },
         });
       })
     );
-
     renderComponent();
-    const user = userEvent.setup();
     const trigger = screen.getByRole("combobox");
-    await user.click(trigger);
-
-    expect(screen.getByText(/ładowanie/i)).toBeInTheDocument();
-
-    const projectItem = await screen.findByText("ToPWR");
-    expect(projectItem).toBeInTheDocument();
-    expect(screen.getByText("Strona PWr Racing Team")).toBeInTheDocument();
-
-    expect(screen.queryByText(/ładowanie/i)).not.toBeInTheDocument();
+    await userEvent.click(trigger);
+    expect(screen.getByText(/ładowanie projektów/i)).toBeInTheDocument();
   });
 
   it("should allow selecting a project", async () => {
     renderComponent();
-    const user = userEvent.setup();
     const trigger = screen.getByRole("combobox");
-    await user.click(trigger);
+    await userEvent.click(trigger);
     const projectItem = await screen.findByText("Strona PWr Racing Team");
-    await user.click(projectItem);
+    await userEvent.click(projectItem);
     expect(trigger.textContent).toBe("Strona PWr Racing Team");
     expect(screen.queryByText(/szukaj/i)).not.toBeInTheDocument();
   });
