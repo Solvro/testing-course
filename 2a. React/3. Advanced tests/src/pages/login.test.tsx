@@ -36,7 +36,7 @@ describe("Login Page Routing", () => {
     const { router } = setupLoginPage();
 
     expect(router.state.location.pathname).toBe("/");
-    expect(screen.getByText(/Zaloguj/i)).toBeInTheDocument();
+    expect(screen.getByText(/Zaloguj/)).toBeInTheDocument();
   });
 });
 
@@ -66,7 +66,7 @@ describe("Email Step Validation", () => {
     await submitEmail("test@gmail.com");
 
     await waitFor(() => {
-      expect(screen.getByText(/@student.pwr.edu.pl/i)).toBeInTheDocument();
+      expect(screen.getByText(/kończyć się na @student.pwr.edu.pl/i)).toBeInTheDocument();
     });
   });
 

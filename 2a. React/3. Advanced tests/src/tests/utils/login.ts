@@ -16,8 +16,12 @@ export const mockAuth = (overrides: Partial<ReturnType<typeof useAuth>> = {}) =>
   });
 };
 
-export const setupLoginPage = () => {
+export const setupLoginPage = (mockAuthOverrides?: Partial<ReturnType<typeof useAuth>>) => {
   cleanup();
+  
+  if (mockAuthOverrides) {
+    mockAuth(mockAuthOverrides);
+  }
   
   const router = createMemoryRouter(routes, {
     initialEntries: ["/"],
@@ -44,7 +48,6 @@ export const getEmailElements = () => {
 };
 
 export const submitEmail = async (emailValue: string) => {
-  mockAuth();
   const { user } = setupLoginPage();
   const { emailInput, submitButton } = getEmailElements();
   
@@ -55,7 +58,6 @@ export const submitEmail = async (emailValue: string) => {
 };
 
 export const setupOtpStep = async () => {
-  mockAuth();
   const { user, router } = setupLoginPage();
   const { emailInput, submitButton } = getEmailElements();
 
