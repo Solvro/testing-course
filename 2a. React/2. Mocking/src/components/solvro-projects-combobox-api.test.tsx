@@ -8,7 +8,6 @@ import { describe, expect, it } from "vitest";
 
 const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 
-// funkcja pomocnicza
 const renderComponent = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -61,33 +60,42 @@ describe("SolvroProjectsComboboxApi", () => {
     expect(screen.queryByText("ToPWR")).not.toBeInTheDocument();
   });
 
-  it("should show a loading state initially", async () => {
+  it("should first show a loading state, and then the projects from the API", async () => {
     server.use(
-      http.get(`${API_BASE_URL}/projects`, async () => {
-        await delay(100);
-        return HttpResponse.json(MOCK_PROJECTS);
+      http.get(new RegExp(`${API_BASE_URL}/projects.*`), async () => {
+        await delay(150);
+        return HttpResponse.json({
+          projects: MOCK_PROJECTS.map((p) => ({
+            value: p.name,
+            label: p.name,
+          })),
+          total: MOCK_PROJECTS.length,
+          filters: { search: null },
+        });
       })
     );
 
     renderComponent();
+    const user = userEvent.setup();
     const trigger = screen.getByRole("combobox");
-    await userEvent.click(trigger);
+    await user.click(trigger);
 
     expect(screen.getByText(/ładowanie/i)).toBeInTheDocument();
-    expect(await screen.findByText("ToPWR")).toBeInTheDocument();
+
+    const projectItem = await screen.findByText("ToPWR");
+    expect(projectItem).toBeInTheDocument();
+    expect(screen.getByText("Strona PWr Racing Team")).toBeInTheDocument();
+
     expect(screen.queryByText(/ładowanie/i)).not.toBeInTheDocument();
   });
 
   it("should allow selecting a project", async () => {
     renderComponent();
     const user = userEvent.setup();
-
     const trigger = screen.getByRole("combobox");
     await user.click(trigger);
-
     const projectItem = await screen.findByText("Strona PWr Racing Team");
     await user.click(projectItem);
-
     expect(trigger.textContent).toBe("Strona PWr Racing Team");
     expect(screen.queryByText(/szukaj/i)).not.toBeInTheDocument();
   });
