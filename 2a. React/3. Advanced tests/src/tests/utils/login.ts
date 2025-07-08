@@ -37,7 +37,7 @@ export const setupLoginPage = () => {
 };
 
 export const getEmailElements = () => {
-  const emailInput = screen.getByPlaceholderText("123456@student.pwr.edu.pl");
+  const emailInput = screen.getByPlaceholderText(/student.pwr.edu.pl/i);
   const submitButton = screen.getByRole("button", { name: /wyślij kod/i });
   
   return { emailInput, submitButton };
