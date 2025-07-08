@@ -20,11 +20,11 @@ describe("SolvroProjectsComboboxAPI", () => {
     render(<SolvroProjectsComboboxApi />, { wrapper: Providers });
     const user = userEvent.setup();
     return { user };
-};
+  };
 
   beforeAll(() => {
     [1, 2, 3, 4, 5].forEach(() => {
-        const projectValue = faker.string.alphanumeric(8);
+      const projectValue = faker.string.alphanumeric(8);
       const project = db.project.create({
         value: projectValue,
         label: projectValue.toUpperCase(),
@@ -35,7 +35,7 @@ describe("SolvroProjectsComboboxAPI", () => {
 
   afterAll(() => {
     db.project.deleteMany({ where: { label: { in: projectLabels } } });
-  })
+  });
 
   it("should render properly", () => {
     renderComponent();
@@ -45,7 +45,7 @@ describe("SolvroProjectsComboboxAPI", () => {
   it("should show loading indicator while data is being fetched", async () => {
     server.use(
       http.get(API_BASE_URL + "/projects", async () => {
-        await delay();
+        await delay(200);
         return HttpResponse.json([]);
       })
     );
@@ -58,7 +58,7 @@ describe("SolvroProjectsComboboxAPI", () => {
   it("should hide loading indicator after data is fetched", async () => {
     server.use(
       http.get(API_BASE_URL + "/projects", async () => {
-        await delay();
+        await delay(200);
         return HttpResponse.json([]);
       })
     );
@@ -66,7 +66,7 @@ describe("SolvroProjectsComboboxAPI", () => {
     const { user } = renderComponent();
 
     await user.click(screen.getByRole("combobox"));
-    await waitForElementToBeRemoved(() => screen.queryByText(/ładowanie/i));
+    await waitForElementToBeRemoved(screen.queryByText(/ładowanie/i));
   });
 
   it("should hide loading indicator if an error occurs", async () => {
@@ -81,18 +81,4 @@ describe("SolvroProjectsComboboxAPI", () => {
     await user.click(screen.getByRole("combobox"));
     expect(screen.getByRole("listbox")).toHaveTextContent(/błąd/i);
   });
-
-  it.todo(
-    "should show a message if there are no projects matching the search term",
-    () => {}
-  );
-
-  it.todo("should render list of projects after data is fetched", () => {});
-
-  it.todo(
-    "should return filtered list of projects if there is a search term",
-    () => {}
-  );
-
-  it.todo("should show an error if fetching data fails", () => {});
 });

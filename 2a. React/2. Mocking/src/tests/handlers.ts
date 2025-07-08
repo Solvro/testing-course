@@ -16,6 +16,12 @@ export const handlers = [
             );
         }
 
-        return HttpResponse.json(projects);
+        return HttpResponse.json({
+            projects: projects,
+            total: projects.length,
+            filters: {
+                search: search || null
+            }
+        });
     })
 ];
