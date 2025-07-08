@@ -65,6 +65,20 @@ describe("Login Page", () => {
     screen.debug();
   });
 
+  it("should inform that i used wrong email", async () => {
+    const screen = render(<LoginPage />, {
+      wrapper: Providers,
+    });
+    const user = userEvent.setup();
+
+    const emailInput = screen.getByLabelText("Adres e-mail");
+
+    const submitButton = screen.getByRole("button");
+
+    await user.type(emailInput, "gaming@gmail.com");
+    await user.click(submitButton);
+    expect(await screen.findByText(/@student.pwr.edu.pl/i)).toBeInTheDocument();
+  });
   it("should change and ask me for password)", async () => {
     const screen = render(<LoginPage />, {
       wrapper: Providers,
@@ -79,6 +93,7 @@ describe("Login Page", () => {
     await user.click(submitButton);
     expect(await screen.findByText(/zaloguj/i)).toBeInTheDocument();
   });
+
   it("should log in planner  after getting correct email and password", async () => {
     server.use(
       http.post(`${BASE_URL}/user/otp/get`, () => {
@@ -109,9 +124,8 @@ describe("Login Page", () => {
     await user.type(emailInput, "piwo@student.pwr.edu.pl");
     await user.click(sendCodeButton);
 
-    await waitFor(() => {
-      expect(screen.getByText(/jednorazowe/i)).toBeInTheDocument();
-    });
+    await expect(screen.getByText(/jednorazowe/i)).toBeInTheDocument();
+
     const passwordInput = await screen.findByLabelText(/jednorazowe/i);
     await user.type(passwordInput, "121212");
     const loginButton = screen.getByRole("button", { name: /zaloguj/i });
