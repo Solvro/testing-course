@@ -12,7 +12,7 @@ import {
 import { mockPlans } from "@/lib/mock-plans";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const getTypeColor = (type: string) => {
   switch (type) {
