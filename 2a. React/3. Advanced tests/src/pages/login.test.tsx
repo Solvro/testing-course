@@ -20,6 +20,6 @@ describe("Login Page", () => {
     await user.click(submitButton);
 
     // Co dalej?
-    screen.debug();
+    // screen.debug();
   });
 });
