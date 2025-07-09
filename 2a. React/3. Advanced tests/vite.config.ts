@@ -17,6 +17,9 @@ export default defineConfig({
       reporter: ["text", "json-summary", "json"],
       include: ["src/**/*.{ts,tsx}"],
       exclude: [
+        "src/tests",
+        "src/main.tsx",
+        "src/App.tsx",
         "src/api/api-z-planer-mock-api-dla-ciekawskich.ts",
         "src/components/ui",
         "**/*.d.ts",
