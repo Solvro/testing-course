@@ -14,12 +14,15 @@ export default defineConfig({
   test: {
     coverage: {
       reportOnFailure: true,
-      reporter: ['text', 'json-summary', 'json'],
-      include: ['src/**/*.{ts,tsx}'],
+      reporter: ["text", "json-summary", "json"],
+      include: ["src/**/*.{ts,tsx}"],
       exclude: [
-        'src/api/api-z-planer-mock-api-dla-ciekawskich.ts',
-        'src/components/ui',
-        '**/*.d.ts',
+        "src/tests",
+        "src/main.tsx",
+        "src/App.tsx",
+        "src/api/api-z-planer-mock-api-dla-ciekawskich.ts",
+        "src/components/ui",
+        "**/*.d.ts",
       ],
     },
     environment: 'jsdom',
