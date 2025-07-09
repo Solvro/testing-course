@@ -10,6 +10,17 @@ afterAll(() => server.close());
 
 global.ResizeObserver = ResizeObserver;
 
+if (typeof window === 'undefined') {
+  // @ts-expect-error: define minimal window for test environment
+  global.window = {
+    ...global,
+  };
+}
+
+document.elementFromPoint = () => {
+  return document.body
+}
+
 Element.prototype.scrollIntoView = vi.fn();
 Object.defineProperty(window, "matchMedia", {
   writable: true,
