@@ -10,6 +10,8 @@ afterAll(() => server.close());
 
 global.ResizeObserver = ResizeObserver;
 
+document.elementFromPoint = vi.fn().mockReturnValue(null);
+
 Element.prototype.scrollIntoView = vi.fn();
 Object.defineProperty(window, "matchMedia", {
   writable: true,
@@ -24,3 +26,19 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
+
+vi.mock("sonner", () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+    loading: vi.fn(),
+    dismiss: vi.fn(),
+  },
+  Toaster: ({ children }: { children?: React.ReactNode }) => children || null,
+}));
+
+vi.mock("next-themes", () => ({
+  useTheme: () => ({ theme: "light" }),
+}));
