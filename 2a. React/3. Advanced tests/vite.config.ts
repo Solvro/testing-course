@@ -14,7 +14,7 @@ export default defineConfig({
   test: {
     coverage: {
       reportOnFailure: true,
-      reporter: ["text", "json-summary", "json"],
+      reporter: ["text", "json-summary", "json", "html"],
       include: ["src/**/*.{ts,tsx}"],
       exclude: [
         "src/tests",
