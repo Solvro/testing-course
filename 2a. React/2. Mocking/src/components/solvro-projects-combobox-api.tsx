@@ -4,7 +4,7 @@ import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SolvroProjectsCombobox } from "./solvro-projects-combobox";
 
-interface Project {
+export interface Project {
   value: string;
   label: string;
 }
@@ -17,7 +17,7 @@ interface ProjectsResponse {
   };
 }
 
-const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
+export const API_BASE_URL = "https://kurs-z-testowania.deno.dev";
 
 const fetchProjects = async (search?: string): Promise<ProjectsResponse> => {
   const url = new URL(`${API_BASE_URL}/projects`);
