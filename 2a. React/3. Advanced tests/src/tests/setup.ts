@@ -24,3 +24,17 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
+
+vi.mock("@/hooks/use-auth", async (importOriginal) => {
+  const { useAuth } = await importOriginal<typeof import("@/hooks/use-auth")>();
+  return { useAuth: vi.fn(useAuth) };
+});
+
+vi.mock("react-router", async (importOriginal) => {
+  const module = await importOriginal<typeof import("react-router")>();
+  return {
+    ...module,
+    Navigate: vi.fn(),
+    useNavigate: () => vi.fn(),
+  };
+});
