@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Login Page", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http:localhost:5173");
+    await page.goto("http://localhost:5173");
   });
 
   test("loads login page", async ({ page }) => {
@@ -40,7 +40,7 @@ test.describe("Login Page", () => {
 
     page.on("console", (msg) => {
       if (msg.text().includes("Kod OTP to")) {
-        otpCode = msg.text().split("Kod OTP to ")[1].split(" ")[0]; // Extract just the number
+        otpCode = msg.text().split("Kod OTP to ")[1].split(" ")[0];
       }
     });
 
