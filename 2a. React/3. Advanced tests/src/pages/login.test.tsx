@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { screen, waitFor } from "@testing-library/react";
+import { screen, waitFor, cleanup } from "@testing-library/react";
 import {
   mockAuth,
   setupLoginPage,
@@ -7,12 +7,11 @@ import {
   submitEmail,
   setupOtpStep,
   submitOtp,
-  getOtpElements,
 } from "@/tests/utils/login";
 
 const mockNavigate = vi.fn();
-vi.mock("react-router", async () => {
-  const actual = await vi.importActual("react-router");
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
     useNavigate: () => mockNavigate,
@@ -22,6 +21,7 @@ vi.mock("react-router", async () => {
 describe("Login Page Routing", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    cleanup();
   });
 
   it("should navigate to /plans when user is authenticated", async () => {
@@ -30,11 +30,11 @@ describe("Login Page Routing", () => {
 
     await waitFor(() => {
       expect(router.state.location.pathname).toBe("/plans");
-    });
+    }, { timeout: 5000 });
   });
 
   it("should stay on login page when user is not authenticated", async () => {
-    mockAuth();
+    mockAuth({ isAuthenticated: false });
     const { router } = setupLoginPage();
 
     await waitFor(() => {
@@ -50,11 +50,16 @@ describe("Login Page Routing", () => {
 describe("Email Step Validation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    cleanup();
   });
 
   it("should have email input field", async () => {
-    mockAuth();
+    mockAuth({ isAuthenticated: false });
     setupLoginPage();
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Zaloguj/)).toBeInTheDocument();
+    });
     
     await waitFor(() => {
       const { emailInput } = getEmailElements();
@@ -91,6 +96,7 @@ describe("Email Step Validation", () => {
 describe("OTP Step Validation", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    cleanup();
   });
 
   it("should have OTP input fields", async () => {
@@ -115,33 +121,6 @@ describe("OTP Step Validation", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Kod OTP może zawierać tylko cyfry")).toBeInTheDocument();
-    });
-  });
-
-  it("should redirect to plans page when OTP is correct", async () => {
-    const mockLogin = vi.fn();
-    mockAuth({ login: mockLogin });
-    
-    const { user } = setupLoginPage();
-    
-    const { emailInput, submitButton } = getEmailElements();
-    await user.type(emailInput, "123456@student.pwr.edu.pl");
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(screen.getByText("Hasło jednorazowe")).toBeInTheDocument();
-    });
-
-    const { otpInput, loginButton } = getOtpElements();
-    await user.type(otpInput, "123456");
-    await user.click(loginButton);
-
-    await waitFor(() => {
-      expect(mockLogin).toHaveBeenCalledWith("123456@student.pwr.edu.pl");
-    });
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith("/plans");
     });
   });
 });

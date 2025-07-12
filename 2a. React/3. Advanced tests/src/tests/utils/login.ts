@@ -7,24 +7,22 @@ import { useAuth } from "@/hooks/use-auth";
 import React from "react";
 
 export const mockAuth = (overrides: Partial<ReturnType<typeof useAuth>> = {}) => {
-  return vi.mocked(useAuth).mockReturnValue({
+  const mockUseAuth = vi.mocked(useAuth);
+  mockUseAuth.mockReturnValue({
     isAuthenticated: false,
     user: null,
     login: vi.fn(),
     logout: vi.fn(),
     ...overrides,
   });
+  return mockUseAuth;
 };
 
-export const setupLoginPage = (mockAuthOverrides?: Partial<ReturnType<typeof useAuth>>) => {
+export const setupLoginPage = (initialPath: string = "/") => {
   cleanup();
   
-  if (mockAuthOverrides) {
-    mockAuth(mockAuthOverrides);
-  }
-  
   const router = createMemoryRouter(routes, {
-    initialEntries: ["/"],
+    initialEntries: [initialPath],
   });
 
   const renderResult = render(
@@ -48,7 +46,13 @@ export const getEmailElements = () => {
 };
 
 export const submitEmail = async (emailValue: string) => {
+  mockAuth();
   const { user } = setupLoginPage();
+  
+  await waitFor(() => {
+    expect(screen.getByText(/Zaloguj/)).toBeInTheDocument();
+  });
+  
   const { emailInput, submitButton } = getEmailElements();
   
   await user.type(emailInput, emailValue);
@@ -58,7 +62,13 @@ export const submitEmail = async (emailValue: string) => {
 };
 
 export const setupOtpStep = async () => {
+  mockAuth();
   const { user, router } = setupLoginPage();
+  
+  await waitFor(() => {
+    expect(screen.getByText(/Zaloguj/)).toBeInTheDocument();
+  });
+
   const { emailInput, submitButton } = getEmailElements();
 
   await user.type(emailInput, "123456@student.pwr.edu.pl");
