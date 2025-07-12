@@ -24,19 +24,26 @@ describe("Login Page Routing", () => {
     vi.clearAllMocks();
   });
 
-  it("should navigate to /plans when user is authenticated", () => {
+  it("should navigate to /plans when user is authenticated", async () => {
     mockAuth({ isAuthenticated: true, user: { email: "test@example.com" } });
     const { router } = setupLoginPage();
 
-    expect(router.state.location.pathname).toBe("/plans");
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe("/plans");
+    });
   });
 
-  it("should stay on login page when user is not authenticated", () => {
+  it("should stay on login page when user is not authenticated", async () => {
     mockAuth();
     const { router } = setupLoginPage();
 
-    expect(router.state.location.pathname).toBe("/");
-    expect(screen.getByText(/Zaloguj/)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe("/");
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Zaloguj/)).toBeInTheDocument();
+    });
   });
 });
 
@@ -45,13 +52,15 @@ describe("Email Step Validation", () => {
     vi.clearAllMocks();
   });
 
-  it("should have email input field", () => {
+  it("should have email input field", async () => {
     mockAuth();
     setupLoginPage();
-    const { emailInput } = getEmailElements();
     
-    expect(emailInput).toBeInTheDocument();
-    expect(emailInput).toHaveAttribute("placeholder");
+    await waitFor(() => {
+      const { emailInput } = getEmailElements();
+      expect(emailInput).toBeInTheDocument();
+      expect(emailInput).toHaveAttribute("placeholder");
+    });
   });
 
   it("should show error for invalid email format", async () => {
@@ -87,8 +96,10 @@ describe("OTP Step Validation", () => {
   it("should have OTP input fields", async () => {
     await setupOtpStep();
 
-    const otpInputs = screen.getAllByRole("textbox");
-    expect(otpInputs).toHaveLength(1);
+    await waitFor(() => {
+      const otpInputs = screen.getAllByRole("textbox");
+      expect(otpInputs).toHaveLength(1);
+    });
   });
 
   it("should show error for invalid OTP length", async () => {
