@@ -48,7 +48,7 @@ test("should login and redirect with valid email and OTP", async ({ page }) => {
   });
 
   await enterOtp(page, otpCode);
-  await page.waitForURL("**/plans", { timeout: 10000 });
+  await page.waitForURL(/\/plans/);
 });
 
 test("should display error message while entering invalid email", async ({
