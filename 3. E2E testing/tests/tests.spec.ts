@@ -1,6 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Login", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("http://localhost:5173");
+  });
   test("should display error if user inputs invalid email", async ({
     page,
   }) => {
@@ -33,7 +36,6 @@ test.describe("Login", () => {
         if (match) resolve(match[1]);
       });
     });
-    await page.goto("http://localhost:5173");
     await expect(page.getByRole("heading")).toContainText(
       "Zaloguj się do planera"
     );
