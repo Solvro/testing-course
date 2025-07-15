@@ -4,23 +4,18 @@ test.describe('Plan Page Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:5173/');
     await page.fill('input[name="email"]', '123456@student.pwr.edu.pl');
-
-    const logMessagePromise = new Promise<string>((resolve) => {
-      const handler = (message) => {
-        const text = message.text();
-        const match = text.match(/Kod OTP to (\d{6})/);
-        if (match) {
-          page.off('console', handler);
-          resolve(match[1]);
-        }
-      };
-      page.on('console', handler);
-    });
-
     await page.click('button[type="submit"]');
 
-    const logMessage = await logMessagePromise;
+    const logMessage = await new Promise<string>((resolve) => {
+            page.on('console', msg => {
+            const match = msg.text().match(/\b\d{6}\b/);
+            if (match) {
+                resolve(match[0]);
+            }
+        });
+    });
 
+    await page.waitForSelector('input[id="«r1»-form-item"]', { timeout: 5000 });
     await page.fill('input[id="«r1»-form-item"]', logMessage);
     await page.click('button[type="submit"]');
     await page.waitForURL('**/plans', { timeout: 10000 });
