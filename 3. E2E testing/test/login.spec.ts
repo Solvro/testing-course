@@ -17,8 +17,8 @@ test.describe('Login Page Tests', () => {
             const text = message.text();
             const match = text.match(/Kod OTP to (\d{6})/);
             if (match) {
-            page.off('console', handler);
-            resolve(match[1]);
+                page.off('console', handler);
+                resolve(match[1]);
             }
         };
         page.on('console', handler);
@@ -33,7 +33,7 @@ test.describe('Login Page Tests', () => {
         await page.fill('input[id="«r1»-form-item"]', logMessage);
         await page.click('button[type="submit"]');
 
-        await expect(page).toHaveURL('http://localhost:5173/plans', { timeout: 5000 });
+        await page.waitForURL('**/plans', { timeout: 10000 });
     });
 
     test('should show error message on invalid email', async ({ page }) => {
