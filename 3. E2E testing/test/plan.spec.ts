@@ -1,9 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Plan Page Tests', () => {
+  let generatedEmail: string;
+
   test.beforeEach(async ({ page }) => {
+    const randomNumber = Math.floor(100000 + Math.random() * 900000);
+    generatedEmail  = `${randomNumber}@student.pwr.edu.pl`;
+
     await page.goto('http://localhost:5173/');
-    await page.fill('input[name="email"]', '123456@student.pwr.edu.pl');
+    await page.fill('input[name="email"]', generatedEmail);
     await page.click('button[type="submit"]');
 
     const logMessage = await new Promise<string>((resolve) => {
@@ -33,7 +38,7 @@ test.describe('Plan Page Tests', () => {
   });
 
   test('should show logged-in email and logout button', async ({ page }) => {
-    await expect(page.getByText('123456@student.pwr.edu.pl')).toBeVisible();
+    await expect(page.getByText(generatedEmail)).toBeVisible();
     await expect(page.getByText('Wyloguj')).toBeVisible();
   });
 

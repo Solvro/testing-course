@@ -39,7 +39,7 @@ test.describe('Login Page Tests', () => {
     });
 
     test('should prevent login if OTP is missing', async ({ page }) => {
-        await page.fill('input[name="email"]', '123456@student.pwr.edu.pl');
+        await page.fill('input[name="email"]', '654321@student.pwr.edu.pl');
         await page.click('button[type="submit"]');
 
         await page.waitForSelector('input[id="«r1»-form-item"]', { timeout: 5000 });
