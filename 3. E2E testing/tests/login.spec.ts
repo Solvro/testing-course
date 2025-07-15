@@ -22,7 +22,7 @@ test('should login with the otp code', async ({ page }) => {
   })
 
   await page.goto('http://localhost:5173')
-  await page.getByPlaceholder('272411@student.pwr.edu.pl').fill('jakub@student.pwr.edu.pl')
+  await page.getByPlaceholder('123456@student.pwr.edu.pl').fill('272411@student.pwr.edu.pl')
   await page.getByRole('button', { name: 'Wyślij kod' }).click()
   await expect(page.getByText('Hasło jednorazowe')).toBeVisible()
   await page.waitForFunction(() => window.otpCode !== null)
