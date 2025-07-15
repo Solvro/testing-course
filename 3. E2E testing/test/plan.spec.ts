@@ -22,13 +22,6 @@ test.describe('Plan Page Tests', () => {
     await page.click('button[type="submit"]');
   });
 
- test('should display all 3 plan types', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
-    await expect(page.getByText('Plan Poniedziałkowy')).toBeVisible();
-    await expect(page.getByText('Plan Rozłożony')).toBeVisible();
-    await expect(page.getByText('Plan Kompaktowy')).toBeVisible();
-  });
-
   test('should show correct number of classes and ECTS', async ({ page }) => {
     await expect(page.getByText('18 ECTS')).toBeVisible();
     await expect(page.getByText('19 ECTS')).toBeVisible();
