@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Login Page Tests', () => {
+test.describe('Plan Page Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:5173/');
     const logMessagePromise = new Promise<string>((resolve) => {
@@ -23,6 +23,7 @@ test.describe('Login Page Tests', () => {
   });
 
  test('should display all 3 plan types', async ({ page }) => {
+    await page.waitForLoadState('networkidle');
     await expect(page.getByText('Plan Poniedziałkowy')).toBeVisible();
     await expect(page.getByText('Plan Rozłożony')).toBeVisible();
     await expect(page.getByText('Plan Kompaktowy')).toBeVisible();
