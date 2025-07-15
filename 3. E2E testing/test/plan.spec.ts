@@ -3,24 +3,27 @@ import { test, expect } from '@playwright/test';
 test.describe('Plan Page Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:5173/');
+    await page.fill('input[name="email"]', '123456@student.pwr.edu.pl');
+
     const logMessagePromise = new Promise<string>((resolve) => {
-    page.on('console', (message) => {
-    const text = message.text();
-        if (text.includes('Kod OTP to')) {
-            const otp = text.slice(-9, -2);
-            resolve(otp);
+      const handler = (message) => {
+        const text = message.text();
+        const match = text.match(/Kod OTP to (\d{6})/);
+        if (match) {
+          page.off('console', handler);
+          resolve(match[1]);
         }
-        });
+      };
+      page.on('console', handler);
     });
 
-    await page.fill('input[name="email"]', '123456@student.pwr.edu.pl');
     await page.click('button[type="submit"]');
 
     const logMessage = await logMessagePromise;
 
     await page.fill('input[id="«r1»-form-item"]', logMessage);
     await page.click('button[type="submit"]');
-    test.setTimeout(10000);
+    await page.waitForURL('**/plans', { timeout: 10000 });
   });
 
   test('should show correct number of classes and ECTS', async ({ page }) => {
