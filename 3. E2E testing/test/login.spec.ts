@@ -27,6 +27,7 @@ test.describe('Login Page Tests', () => {
 
         await page.fill('input[id="«r1»-form-item"]', logMessage);
         await page.click('button[type="submit"]');
+        test.setTimeout(10000);
 
         await expect(page).toHaveURL('http://localhost:5173/plans');
     });

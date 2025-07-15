@@ -20,6 +20,7 @@ test.describe('Plan Page Tests', () => {
 
     await page.fill('input[id="«r1»-form-item"]', logMessage);
     await page.click('button[type="submit"]');
+    test.setTimeout(10000);
   });
 
   test('should show correct number of classes and ECTS', async ({ page }) => {
