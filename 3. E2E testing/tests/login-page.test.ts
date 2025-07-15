@@ -30,19 +30,24 @@ test.describe("LoginPage", () => {
   test("should redirect to plans page after entering correct otp", async ({
     page,
   }) => {
-    await page.route("*/**/user/otp/get", async (route) => {
-      await route.fulfill({ json: { success: true }, status: 200 });
-    });
-
-    await page.route("*/**/user/otp/verify", async (route) => {
-      await route.fulfill({ json: { success: true }, status: 200 });
+    let otp: string | null = null;
+    page.on("console", (msg) => {
+      if (msg.type() === "info") {
+        const match = msg.text().match(/\d{6}/);
+        if (match !== null) {
+          otp = match[0];
+        }
+      }
     });
 
     await loginPage.enterEmail("test@student.pwr.edu.pl");
     await expect(page.getByText(/hasło/i)).toBeVisible();
 
-    // Entered OTP doesn't matter since API is mocked
-    await loginPage.enterOtpCode("123456");
+    if (otp === null) {
+      throw new Error("OTP not found! Aborting...");
+    }
+
+    await loginPage.enterOtpCode(otp);
     await expect(page).toHaveURL(/plans/i);
   });
 
