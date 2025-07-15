@@ -30,9 +30,7 @@ test('should login with the otp code', async ({ page }) => {
   if (!otpCode) {
     throw new Error('nie udało się przechwycić kodu OTP z konsoli (giga szkoda)')
   }
-  for (let i = 0; i < 6; i++) {
-    await page.getByRole('textbox').nth(i).fill(otpCode[i])
-  }
+  await page.getByLabel('Hasło jednorazowe').fill(otpCode)
   await page.getByRole('button', { name: 'Zaloguj się' }).click()
   await expect(page).toHaveURL(/.*\/plans/)
 })
