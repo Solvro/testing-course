@@ -14,7 +14,7 @@ export const mockGetOtp = (page: Page) =>
   );
 
 export const mockVerifyOtp = (page: Page) =>
-  page.route(BASE_URL + "/user/otp/verify", (route) => {
+  page.route(`${BASE_URL}/user/otp/verify`, (route) => {
     const { email, otp } = route.request().postDataJSON() as {
       email: string;
       otp: string;
