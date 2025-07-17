@@ -4,7 +4,10 @@ import ResizeObserver from "resize-observer-polyfill";
 
 import { server } from "./mocks/server";
 
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+  document.elementFromPoint = vi.fn(() => document.createElement("div"));
+});
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
