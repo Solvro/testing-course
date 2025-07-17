@@ -11,6 +11,7 @@ Te osoby zgłosiły się do kursu, ale go nie ukończyły, ani nie dały żadnej
 1. **Patryk Kuzdrowski** - [Kuzdra24](https://github.com/Kuzdra24)
 1. **Hubert Tański** - [HETTski](https://github.com/HETTski)
 1. **Tymon Jędryczka** - [jedryczkatymon](https://github.com/jedryczkatymon)
+1. **Miłosz Kowalczyk** - [zeolsem](https://github.com/zeolsem)
 
 ## Terminy
 
@@ -122,12 +123,12 @@ Zaczynamy:
 1. ~~Tymon Jędryczka - jedryczkatymon~~
 1. Piotr Hirkyj - ibtyog
 1. Kamil Ramocki - kamilramocki
-1. Antoni Czaplicki - Antoni-Czaplicki
+1. ~~Antoni Czaplicki - Antoni-Czaplicki~~
 1. Konrad Guzek - kguzek
 1. Dawid Kowal - GTR1701
 1. Jakub Dołharz - Konzum59
 1. Adrian Iskra - Adriskk
-1. Miłosz Kowalczyk - zeolsem
+1. ~~Miłosz Kowalczyk - zeolsem~~
 1. Kamil Marczak - qamarq
 1. Michał Gęs - michalges
 1. Jakub Czajkowski - czaja307
