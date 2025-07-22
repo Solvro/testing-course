@@ -1,6 +1,13 @@
 import { test, expect, Page } from '@playwright/test';
+import { faker } from '@faker-js/faker';
 
-const VALID_EMAIL = 'debil@student.pwr.edu.pl';
+const generateValidEmail = (): string => {
+  const firstName = faker.person.firstName().toLowerCase();
+  const lastName = faker.person.lastName().toLowerCase();
+  const digits = faker.number.int({ min: 100, max: 999 });
+  return `${firstName}.${lastName}${digits}@student.pwr.edu.pl`;
+};
+const VALID_EMAIL = generateValidEmail();
 const INVALID_EMAIL_FORMAT = 'kreatywnymail123';
 const INVALID_EMAIL_DOMAIN = 'student-debil@poczta.z.dupy';
 const EMPTY_EMAIL = '';
